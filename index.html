@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Metallbau Lars Franzmann | Engineering & Handwerk 2026</title>
+    <meta name="description" content="Präzisionsmetallbau und zertifizierte Schweißtechnik. Ihr Partner für komplexe Stahlkonstruktionen und architektonische Lösungen.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+        .swiss-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        .hero-image-clip {
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+        }
+
+        /* ── Blur overlay behind mega-dropdown ── */
+        #blur-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            backdrop-filter: blur(8px); background: rgba(15, 23, 42, 0.3); 
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+            z-index: 30;
+        }
+        #blur-bg.show { opacity: 1; pointer-events: all; }
+        
+        /* ── Desktop mega-dropdown ── */
+        #dropdown { transform-origin: top; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        #dropdown.show { opacity: 1; transform: scaleY(1); }
+
+        /* ── Mobile menu overlay ── */
+        #mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* ── Mobile accordion ── */
+        .mob-acc-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mob-acc-body.open {
+            max-height: 400px;
+        }
+
+        /* ── Hamburger icon morphing ── */
+        .bar { display: block; width: 22px; height: 2px; background: currentColor; transition: all 0.35s ease; transform-origin: center; }
+        #ham.is-open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        #ham.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        #ham.is-open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        /* ── Service card hover ── */
+        .service-card img { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .service-card:hover img { transform: scale(1.05); }
+    </style>
+</head>
+<body class="bg-[#f8f9fa] text-slate-900 overflow-x-hidden">
+
+<div id="blur-bg"></div>
+
+<!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-5 sm:px-8 py-5">
+
+        <!-- Logo + desktop links -->
+        <div class="flex items-center gap-10">
+            <a href="index.html" class="font-black text-xl tracking-tighter uppercase shrink-0">
+                Franzmann<span class="text-blue-700">.</span>
+            </a>
+            <!-- Desktop nav links — hidden below lg -->
+            <ul class="hidden lg:flex space-x-10 text-[13px] font-bold uppercase tracking-[0.18em]" id="nav-items">
+                <li class="menu-item" data-key="Leistungen">
+                    <a href="#" class="hover:text-blue-700 transition">Leistungen</a>
+                </li>
+                <li class="menu-item" data-key="Lösungen">
+                    <a href="#" class="hover:text-blue-700 transition">Lösungen</a>
+                </li>
+                <li class="menu-item" data-key="Unternehmen">
+                    <a href="#" class="hover:text-blue-700 transition">Unternehmen</a>
+                </li>
+                <li class="menu-item" data-key="Kontakt">
+                    <a href="#" class="hover:text-blue-700 transition">Kontakt</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Right side actions -->
+        <div class="flex items-center gap-4">
+            <a href="funnel.html"
+               class="hidden sm:inline-block text-[12px] font-black border-2 border-slate-900 px-5 py-2.5 hover:bg-slate-900 hover:text-white transition whitespace-nowrap">
+                PROJEKT STARTEN
+            </a>
+            <!-- Hamburger — visible below lg -->
+            <button id="ham" aria-label="Menü öffnen"
+                    class="lg:hidden flex flex-col gap-[5px] items-center justify-center w-10 h-10 text-slate-900 focus:outline-none">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Desktop mega-dropdown -->
+    <div id="dropdown"
+         class="hidden lg:flex justify-center bg-white shadow-2xl absolute w-full top-full left-0 z-40 scale-y-0 opacity-0 border-t border-slate-100">
+        <div class="max-w-7xl w-full flex gap-16 p-16" id="dropdown-content"></div>
+    </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     MOBILE FULL-SCREEN MENU
+════════════════════════════════════════ -->
+<div id="mobile-menu"
+     class="fixed inset-0 z-40 bg-white flex flex-col overflow-y-auto lg:hidden">
+    <div class="px-5 pt-28 pb-12 flex-1">
+
+        <!-- CTA top -->
+        <a href="funnel.html"
+           class="block w-full text-center text-[13px] font-black border-2 border-slate-900 py-3.5 mb-10 hover:bg-slate-900 hover:text-white transition sm:hidden">
+            PROJEKT STARTEN
+        </a>
+
+        <!-- Accordion nav items -->
+        <ul class="divide-y divide-slate-100" id="mobile-nav-items">
+            <!-- Items injected by JS -->
+        </ul>
+    </div>
+
+    <!-- Footer in mobile menu -->
+    <div class="px-5 py-6 border-t border-slate-100 flex gap-6 text-[12px] font-bold uppercase tracking-widest text-slate-400">
+        <a href="#" class="hover:text-blue-700 transition">Impressum</a>
+        <a href="#" class="hover:text-blue-700 transition">Datenschutz</a>
+        <a href="#" class="hover:text-blue-700 transition">LinkedIn</a>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     MAIN
+════════════════════════════════════════ -->
+<main class="pt-28 sm:pt-32">
+
+    <!-- HERO HEADER -->
+    <header class="max-w-7xl mx-auto px-5 sm:px-8 mb-16 sm:mb-24">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-end">
+            <div class="lg:col-span-8">
+                <p class="text-blue-600 font-bold tracking-[0.3em] text-[12px] uppercase mb-4">
+                    Engineering &amp; Fabrication
+                </p>
+                <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.9] tracking-tighter italic">
+                    Stahlbau mit <br><span class="text-blue-700">Systematik.</span>
+                </h1>
+            </div>
+            <div class="lg:col-span-4 lg:pb-2 mt-6 lg:mt-0">
+                <p class="text-[15px] sm:text-base leading-relaxed text-slate-500 font-medium border-l-2 border-slate-200 pl-5">
+                    Wir transformieren rohen Stahl in präzise Architekturkomponenten. Als Meisterbetrieb in der zweiten Generation vereinen wir digitale Planung mit physischer Beständigkeit.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- FEATURE CARD -->
+    <section class="max-w-7xl mx-auto px-5 sm:px-8 mb-24 sm:mb-32">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 bg-slate-900 overflow-hidden rounded-sm shadow-2xl">
+            <!-- Image -->
+            <div class="lg:col-span-7 relative h-[280px] sm:h-[380px] lg:h-[550px]">
+                <img src="Metalll1.jpg" alt="Fertigungshalle"
+                     class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-900/40 to-transparent"></div>
+            </div>
+            <!-- Text panel -->
+            <div class="lg:col-span-5 p-8 sm:p-12 lg:p-20 flex flex-col justify-center bg-white">
+                <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-5 leading-none text-slate-900">
+                    Zertifizierte <br>Exzellenz.
+                </h2>
+                <p class="text-[15px] sm:text-base text-slate-600 leading-relaxed mb-8">
+                    Unsere Fertigung unterliegt strengsten Qualitätskontrollen nach DIN EN 1090. Jedes Bauteil, das unsere Werkstatt in Bretzenheim verlässt, ist ein Zeugnis für deutsche Ingenieurskunst und handwerkliche Leidenschaft.
+                </p>
+                <div class="grid grid-cols-2 gap-6 sm:gap-8 border-t border-slate-100 pt-6 sm:pt-8">
+                    <div>
+                        <span class="block text-2xl sm:text-3xl font-black text-blue-700">EXC2</span>
+                        <span class="text-[11px] uppercase font-bold tracking-widest text-slate-400">Zertifizierung</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl sm:text-3xl font-black text-blue-700">2026</span>
+                        <span class="text-[11px] uppercase font-bold tracking-widest text-slate-400">Technologie-Standard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHILOSOPHY / METHODIK -->
+    <section class="max-w-5xl mx-auto px-5 sm:px-8 mb-24 sm:mb-32">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-16 lg:gap-32">
+            <div>
+                <h3 class="text-[12px] font-black uppercase tracking-[0.3em] text-blue-700 mb-6 sm:mb-8 flex items-center">
+                    <span class="w-8 h-px bg-blue-700 mr-4 shrink-0"></span> Philosophie
+                </h3>
+                <div class="space-y-5 text-[15px] leading-relaxed text-slate-700">
+                    <p>
+                        In einer Ära der Massenproduktion setzen wir auf die Unbezahlbarkeit von <strong>Maßarbeit</strong>.
+                        Metallbau Franzmann steht für die Symbiose aus technischer Innovation und der Beständigkeit von Stahl und Aluminium.
+                    </p>
+                    <p>
+                        Unser Ansatz ist ganzheitlich: Wir verstehen uns nicht nur als ausführendes Organ, sondern als beratende Instanz
+                        für Architekten, Bauherren und Industriekunden. Jedes Projekt beginnt mit einer tiefgreifenden Analyse der
+                        statischen Anforderungen und ästhetischen Ziele.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-[12px] font-black uppercase tracking-[0.3em] text-blue-700 mb-6 sm:mb-8 flex items-center">
+                    <span class="w-8 h-px bg-blue-700 mr-4 shrink-0"></span> Methodik
+                </h3>
+                <div class="space-y-5 text-[15px] leading-relaxed text-slate-700">
+                    <p>
+                        Durch den Einsatz modernster <strong>BIM-fähiger CAD-Software</strong> minimieren wir Schnittstellenverluste
+                        und garantieren eine passgenaue Montage vor Ort. Unsere Schweißfachingenieure überwachen dabei jeden Prozessschritt.
+                    </p>
+                    <p>
+                        Von der ersten Entwurfsplanung über die präzise Laser-Vorfertigung bis hin zur finalen Oberflächenveredelung
+                        (Pulverbeschichtung oder Feuerverzinkung) bieten wir alle Leistungen aus einer Hand. Das Ergebnis sind
+                        Konstruktionen, die sowohl funktional als auch visuell überzeugen.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEISTUNGSSPEKTRUM -->
+    <section class="bg-slate-100 py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <!-- Section header -->
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-5 mb-10 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-black uppercase tracking-tighter">Leistungsspektrum</h2>
+                <a href="#"
+                   class="self-start sm:self-auto text-[12px] font-bold uppercase tracking-widest border-b-2 border-blue-700 pb-1 whitespace-nowrap">
+                    Alle Leistungen ansehen
+                </a>
+            </div>
+
+            <!-- Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+                <!-- Card 1 -->
+                <div class="service-card group cursor-pointer">
+                    <div class="mb-5 overflow-hidden">
+                        <img src="MetallHaus.jpg" class="w-full h-52 sm:h-56 object-cover" alt="Treppenbau">
+                    </div>
+                    <h4 class="font-black uppercase text-[17px] sm:text-lg mb-3 tracking-tight">
+                        Architektonischer Stahlbau
+                    </h4>
+                    <p class="text-[13px] sm:text-sm text-slate-500 leading-relaxed">
+                        Individuelle Treppenanlagen, Balkonkonstruktionen und Fassadenelemente mit höchstem ästhetischem Anspruch.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="service-card group cursor-pointer">
+                    <div class="mb-5 overflow-hidden">
+                        <img src="industriell.jpg" class="w-full h-52 sm:h-56 object-cover" alt="Industrie">
+                    </div>
+                    <h4 class="font-black uppercase text-[17px] sm:text-lg mb-3 tracking-tight">
+                        Industrielle Lösungen
+                    </h4>
+                    <p class="text-[13px] sm:text-sm text-slate-500 leading-relaxed">
+                        Wartungsbühnen, Lastenträger und Schutzvorrichtungen für komplexe Produktionsumgebungen.
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="service-card group cursor-pointer">
+                    <div class="mb-5 overflow-hidden">
+                        <img src="bohrer.jpg" class="w-full h-52 sm:h-56 object-cover" alt="Sonderbau">
+                    </div>
+                    <h4 class="font-black uppercase text-[17px] sm:text-lg mb-3 tracking-tight">
+                        Sonderkonstruktionen
+                    </h4>
+                    <p class="text-[13px] sm:text-sm text-slate-500 leading-relaxed">
+                        Prototypenbau und individuelle Metalllösungen, die über den Standard hinausgehen.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer class="bg-white border-t border-slate-200 py-12 sm:py-16">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
+        <p class="text-[12px] font-bold uppercase tracking-[0.2em] text-slate-400 text-center sm:text-left">
+            © 2026 Metallbau Franzmann GmbH — Engineering &amp; Design
+        </p>
+        <div class="flex gap-6 sm:gap-8 text-[12px] font-bold uppercase tracking-widest">
+            <a href="#" class="hover:text-blue-700 transition">Impressum</a>
+            <a href="#" class="hover:text-blue-700 transition">Datenschutz</a>
+            <a href="#" class="hover:text-blue-700 transition">LinkedIn</a>
+        </div>
+    </div>
+</footer>
+
+<!-- ════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════ -->
+<script>
+/* ─── Menu data ─── */
+const MENU_CONTENT = {
+    Leistungen: {
+        firstUl:  { title: "Konstruktion", items: ["Treppenbau", "Gelaendersysteme", "Vordaecher"] },
+        secondUl: { title: "Industriebau", items: ["Stahlbuehnen", "Hallenbau", "Rammschutz"] },
+        thirdUl:  { title: "Fertigung",    items: ["Laserschneiden", "CNC-Biegen", "Schweissarbeiten"] }
+    },
+    Loesungen: {
+        firstUl:  { title: "Segmente",   items: ["Privatbau", "Gewerbebau", "Oeffentlicher Raum"] },
+        secondUl: { title: "Materialien",items: ["Edelstahl", "Aluminium", "C-Stahl"] },
+        thirdUl:  { title: "Spezial",    items: ["Brandschutz", "Smart Access"] }
+    },
+    Unternehmen: {
+        firstUl:  { title: "Profil",   items: ["Unsere Geschichte", "Team", "Zertifikate"] },
+        secondUl: { title: "Karriere", items: ["Offene Stellen", "Ausbildung"] },
+        thirdUl:  { title: "Media",    items: ["Downloads", "News"] }
+    },
+    Kontakt: {
+        firstUl:  { title: "Zentrale", items: ["Anfahrt", "Buerozeiten"] },
+        secondUl: { title: "Direkt",   items: ["Anfrageformular", "E-Mail"] },
+        thirdUl:  { title: "Notfall",  items: ["Reparaturservice"] }
+    }
+};
+
+/* Map display keys to data keys (handles umlauts) */
+const KEY_MAP = {
+    "Leistungen":  "Leistungen",
+    "L\u00f6sungen": "Loesungen",
+    "Unternehmen": "Unternehmen",
+    "Kontakt":     "Kontakt"
+};
+
+/* ─── Desktop mega-dropdown ─── */
+const menuItems     = document.querySelectorAll('.menu-item');
+const dropdown      = document.getElementById('dropdown');
+const dropdownContent = document.getElementById('dropdown-content');
+const blurBg        = document.getElementById('blur-bg');
+
+function openDropdown(key) {
+    const dataKey = KEY_MAP[key] || key;
+    const content = MENU_CONTENT[dataKey];
+    if (!content) return;
+    dropdownContent.innerHTML = '';
+    ['firstUl','secondUl','thirdUl'].forEach(section => {
+        const col = document.createElement('div');
+        col.className = "flex-1";
+        col.innerHTML = `
+            <h3 class="font-black text-slate-900 uppercase text-[11px] tracking-[0.3em] mb-8 border-b border-slate-100 pb-3">${content[section].title}</h3>
+            <ul class="space-y-4 text-[13px] font-bold text-slate-400 uppercase tracking-widest">
+                ${content[section].items.map(i => `<li class="hover:text-blue-700 cursor-pointer transition-colors">${i}</li>`).join('')}
+            </ul>`;
+        dropdownContent.appendChild(col);
+    });
+    dropdown.classList.remove('hidden');
+    setTimeout(() => { dropdown.classList.add('show'); blurBg.classList.add('show'); }, 10);
+}
+
+function closeDropdown() {
+    dropdown.classList.remove('show');
+    blurBg.classList.remove('show');
+    setTimeout(() => { if (!dropdown.classList.contains('show')) dropdown.classList.add('hidden'); }, 400);
+}
+
+menuItems.forEach(item => {
+    item.addEventListener('mouseenter', () => openDropdown(item.dataset.key));
+});
+document.querySelector('nav').addEventListener('mouseleave', closeDropdown);
+
+/* ─── Mobile hamburger + menu ─── */
+const ham        = document.getElementById('ham');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileNav  = document.getElementById('mobile-nav-items');
+
+/* Build mobile accordion */
+Object.entries(MENU_CONTENT).forEach(([key, content]) => {
+    /* Restore display label */
+    const displayLabel = {
+        Leistungen: "Leistungen",
+        Loesungen:  "L\u00f6sungen",
+        Unternehmen:"Unternehmen",
+        Kontakt:    "Kontakt"
+    }[key] || key;
+
+    const li = document.createElement('li');
+    li.innerHTML = `
+        <button class="mob-acc-trigger w-full flex justify-between items-center py-4 text-[15px] font-black uppercase tracking-widest text-slate-900 focus:outline-none">
+            <span>${displayLabel}</span>
+            <svg class="mob-chevron w-4 h-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
+        <div class="mob-acc-body pb-2">
+            <div class="grid grid-cols-3 gap-4 pt-2 pb-4 border-t border-slate-100">
+                ${['firstUl','secondUl','thirdUl'].map(s => `
+                    <div>
+                        <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-3">${content[s].title}</p>
+                        <ul class="space-y-2.5">
+                            ${content[s].items.map(i => `<li class="text-[13px] font-bold text-slate-600 uppercase tracking-wide hover:text-blue-700 transition cursor-pointer">${i}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+            </div>
+        </div>`;
+    mobileNav.appendChild(li);
+});
+
+/* Accordion toggle */
+mobileNav.querySelectorAll('.mob-acc-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const body    = btn.nextElementSibling;
+        const chevron = btn.querySelector('.mob-chevron');
+        const isOpen  = body.classList.contains('open');
+        mobileNav.querySelectorAll('.mob-acc-body').forEach(b => b.classList.remove('open'));
+        mobileNav.querySelectorAll('.mob-chevron').forEach(c => c.style.transform = '');
+        if (!isOpen) {
+            body.classList.add('open');
+            chevron.style.transform = 'rotate(180deg)';
+        }
+    });
+});
+
+/* Hamburger toggle */
+function toggleMobile() {
+    const isOpen = mobileMenu.classList.contains('open');
+    ham.classList.toggle('is-open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+}
+ham.addEventListener('click', toggleMobile);
+</script>
+
+</body>
+</html>
