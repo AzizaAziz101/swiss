@@ -13,26 +13,37 @@
         
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
 
-        /* ── Desktop mega-dropdown (original style, no animation) ── */
-        #dropdown {
-            position: absolute;
-            width: 100%;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            border-top: 1px solid #e2e8f0;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.07);
-            display: none;
-            z-index: 40;
+        .swiss-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
         }
-        #dropdown.show { display: flex; justify-content: center; }
+
+        .hero-image-clip {
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+        }
+
+        /* ── Blur overlay behind mega-dropdown ── */
+        #blur-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            backdrop-filter: blur(8px); background: rgba(15, 23, 42, 0.3); 
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+            z-index: 30;
+        }
+        #blur-bg.show { opacity: 1; pointer-events: all; }
+        
+        /* ── Desktop mega-dropdown ── */
+        #dropdown { transform-origin: top; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        #dropdown.show { opacity: 1; transform: scaleY(1); }
 
         /* ── Mobile menu overlay ── */
         #mobile-menu {
             transform: translateX(100%);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        #mobile-menu.open { transform: translateX(0); }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
 
         /* ── Mobile accordion ── */
         .mob-acc-body {
@@ -40,7 +51,9 @@
             overflow: hidden;
             transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .mob-acc-body.open { max-height: 500px; }
+        .mob-acc-body.open {
+            max-height: 400px;
+        }
 
         /* ── Hamburger icon morphing ── */
         .bar { display: block; width: 22px; height: 2px; background: currentColor; transition: all 0.35s ease; transform-origin: center; }
@@ -55,19 +68,20 @@
 </head>
 <body class="bg-[#f8f9fa] text-slate-900 overflow-x-hidden">
 
+<div id="blur-bg"></div>
+
 <!-- ════════════════════════════════════════
      NAV
 ════════════════════════════════════════ -->
-<nav class="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
     <div class="max-w-7xl mx-auto flex justify-between items-center px-5 sm:px-8 py-5">
 
         <!-- Logo + desktop links -->
-        <div class="flex items-center gap-12">
+        <div class="flex items-center gap-10">
             <a href="index.html" class="font-black text-xl tracking-tighter uppercase shrink-0">
                 Franzmann<span class="text-blue-700">.</span>
             </a>
-
-            <!-- Desktop nav — hidden below lg -->
+            <!-- Desktop nav links — hidden below lg -->
             <ul class="hidden lg:flex space-x-10 text-[13px] font-bold uppercase tracking-[0.18em]" id="nav-items">
                 <li class="menu-item" data-key="Leistungen">
                     <a href="#" class="hover:text-blue-700 transition">Leistungen</a>
@@ -99,9 +113,11 @@
             </button>
         </div>
     </div>
-    <!-- Desktop mega-dropdown panel -->
-    <div id="dropdown" class="hidden lg:hidden">
-        <div class="max-w-7xl w-full flex gap-16 p-14" id="dropdown-content"></div>
+
+    <!-- Desktop mega-dropdown -->
+    <div id="dropdown"
+         class="hidden lg:flex justify-center bg-white shadow-2xl absolute w-full top-full left-0 z-40 scale-y-0 opacity-0 border-t border-slate-100">
+        <div class="max-w-7xl w-full flex gap-16 p-16" id="dropdown-content"></div>
     </div>
 </nav>
 
@@ -119,7 +135,9 @@
         </a>
 
         <!-- Accordion nav items -->
-        <ul class="divide-y divide-slate-100" id="mobile-nav-items"></ul>
+        <ul class="divide-y divide-slate-100" id="mobile-nav-items">
+            <!-- Items injected by JS -->
+        </ul>
     </div>
 
     <!-- Footer in mobile menu -->
@@ -157,11 +175,13 @@
     <!-- FEATURE CARD -->
     <section class="max-w-7xl mx-auto px-5 sm:px-8 mb-24 sm:mb-32">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 bg-slate-900 overflow-hidden rounded-sm shadow-2xl">
+            <!-- Image -->
             <div class="lg:col-span-7 relative h-[280px] sm:h-[380px] lg:h-[550px]">
                 <img src="Metalll1.jpg" alt="Fertigungshalle"
                      class="absolute inset-0 w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-r from-slate-900/40 to-transparent"></div>
             </div>
+            <!-- Text panel -->
             <div class="lg:col-span-5 p-8 sm:p-12 lg:p-20 flex flex-col justify-center bg-white">
                 <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-5 leading-none text-slate-900">
                     Zertifizierte <br>Exzellenz.
@@ -191,8 +211,15 @@
                     <span class="w-8 h-px bg-blue-700 mr-4 shrink-0"></span> Philosophie
                 </h3>
                 <div class="space-y-5 text-[15px] leading-relaxed text-slate-700">
-                    <p>In einer Ära der Massenproduktion setzen wir auf die Unbezahlbarkeit von <strong>Maßarbeit</strong>. Metallbau Franzmann steht für die Symbiose aus technischer Innovation und der Beständigkeit von Stahl und Aluminium.</p>
-                    <p>Unser Ansatz ist ganzheitlich: Wir verstehen uns als beratende Instanz für Architekten, Bauherren und Industriekunden. Jedes Projekt beginnt mit einer tiefgreifenden Analyse der statischen Anforderungen.</p>
+                    <p>
+                        In einer Ära der Massenproduktion setzen wir auf die Unbezahlbarkeit von <strong>Maßarbeit</strong>.
+                        Metallbau Franzmann steht für die Symbiose aus technischer Innovation und der Beständigkeit von Stahl und Aluminium.
+                    </p>
+                    <p>
+                        Unser Ansatz ist ganzheitlich: Wir verstehen uns nicht nur als ausführendes Organ, sondern als beratende Instanz
+                        für Architekten, Bauherren und Industriekunden. Jedes Projekt beginnt mit einer tiefgreifenden Analyse der
+                        statischen Anforderungen und ästhetischen Ziele.
+                    </p>
                 </div>
             </div>
             <div>
@@ -200,8 +227,15 @@
                     <span class="w-8 h-px bg-blue-700 mr-4 shrink-0"></span> Methodik
                 </h3>
                 <div class="space-y-5 text-[15px] leading-relaxed text-slate-700">
-                    <p>Durch den Einsatz modernster <strong>BIM-fähiger CAD-Software</strong> minimieren wir Schnittstellenverluste und garantieren eine passgenaue Montage vor Ort.</p>
-                    <p>Von der Entwurfsplanung über Laser-Vorfertigung bis zur Oberflächenveredelung bieten wir alle Leistungen aus einer Hand.</p>
+                    <p>
+                        Durch den Einsatz modernster <strong>BIM-fähiger CAD-Software</strong> minimieren wir Schnittstellenverluste
+                        und garantieren eine passgenaue Montage vor Ort. Unsere Schweißfachingenieure überwachen dabei jeden Prozessschritt.
+                    </p>
+                    <p>
+                        Von der ersten Entwurfsplanung über die präzise Laser-Vorfertigung bis hin zur finalen Oberflächenveredelung
+                        (Pulverbeschichtung oder Feuerverzinkung) bieten wir alle Leistungen aus einer Hand. Das Ergebnis sind
+                        Konstruktionen, die sowohl funktional als auch visuell überzeugen.
+                    </p>
                 </div>
             </div>
         </div>
@@ -210,111 +244,56 @@
     <!-- LEISTUNGSSPEKTRUM -->
     <section class="bg-slate-100 py-16 sm:py-24">
         <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <!-- Section header -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-5 mb-10 sm:mb-16">
                 <h2 class="text-3xl sm:text-4xl font-black uppercase tracking-tighter">Leistungsspektrum</h2>
-                <a href="#" class="self-start sm:self-auto text-[12px] font-bold uppercase tracking-widest border-b-2 border-blue-700 pb-1 whitespace-nowrap">
+                <a href="#"
+                   class="self-start sm:self-auto text-[12px] font-bold uppercase tracking-widest border-b-2 border-blue-700 pb-1 whitespace-nowrap">
                     Alle Leistungen ansehen
                 </a>
             </div>
 
+            <!-- Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+                <!-- Card 1 -->
                 <div class="service-card group cursor-pointer">
                     <div class="mb-5 overflow-hidden">
                         <img src="MetallHaus.jpg" class="w-full h-52 sm:h-56 object-cover" alt="Treppenbau">
                     </div>
-                    <h4 class="font-black uppercase text-[17px] sm:text-lg mb-3 tracking-tight">Architektonischer Stahlbau</h4>
-                    <p class="text-[13px] sm:text-sm text-slate-500 leading-relaxed">Individuelle Treppenanlagen, Balkonkonstruktionen und Fassadenelemente mit höchstem ästhetischem Anspruch.</p>
+                    <h4 class="font-black uppercase text-[17px] sm:text-lg mb-3 tracking-tight">
+                        Architektonischer Stahlbau
+                    </h4>
+                    <p class="text-[13px] sm:text-sm text-slate-500 leading-relaxed">
+                        Individuelle Treppenanlagen, Balkonkonstruktionen und Fassadenelemente mit höchstem ästhetischem Anspruch.
+                    </p>
                 </div>
+                <!-- Card 2 -->
                 <div class="service-card group cursor-pointer">
                     <div class="mb-5 overflow-hidden">
                         <img src="industriell.jpg" class="w-full h-52 sm:h-56 object-cover" alt="Industrie">
                     </div>
-                    <h4 class="font-black uppercase text-[17px] sm:text-lg mb-3 tracking-tight">Industrielle Lösungen</h4>
-                    <p class="text-[13px] sm:text-sm text-slate-500 leading-relaxed">Wartungsbühnen, Lastenträger und Schutzvorrichtungen für komplexe Produktionsumgebungen.</p>
+                    <h4 class="font-black uppercase text-[17px] sm:text-lg mb-3 tracking-tight">
+                        Industrielle Lösungen
+                    </h4>
+                    <p class="text-[13px] sm:text-sm text-slate-500 leading-relaxed">
+                        Wartungsbühnen, Lastenträger und Schutzvorrichtungen für komplexe Produktionsumgebungen.
+                    </p>
                 </div>
+                <!-- Card 3 -->
                 <div class="service-card group cursor-pointer">
                     <div class="mb-5 overflow-hidden">
                         <img src="bohrer.jpg" class="w-full h-52 sm:h-56 object-cover" alt="Sonderbau">
                     </div>
-                    <h4 class="font-black uppercase text-[17px] sm:text-lg mb-3 tracking-tight">Sonderkonstruktionen</h4>
-                    <p class="text-[13px] sm:text-sm text-slate-500 leading-relaxed">Prototypenbau und individuelle Metalllösungen, die über den Standard hinausgehen.</p>
+                    <h4 class="font-black uppercase text-[17px] sm:text-lg mb-3 tracking-tight">
+                        Sonderkonstruktionen
+                    </h4>
+                    <p class="text-[13px] sm:text-sm text-slate-500 leading-relaxed">
+                        Prototypenbau und individuelle Metalllösungen, die über den Standard hinausgehen.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- ════ MARQUEE + KENNZAHLEN ════ -->
-
-    <!-- Endlosband -->
-    <div class="overflow-hidden bg-slate-900 py-6 sm:py-8 select-none" aria-hidden="true">
-        <div id="marquee-track" class="flex whitespace-nowrap">
-            <!-- zwei identische Streifen → nahtlose Schleife per JS -->
-            <div class="marquee-stripe flex items-center shrink-0">
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Stahlbau</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Präzision</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Meisterbetrieb</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">DIN EN 1090</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Zweite Generation</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-            </div>
-            <div class="marquee-stripe flex items-center shrink-0" aria-hidden="true">
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Stahlbau</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Präzision</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Meisterbetrieb</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">DIN EN 1090</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Zweite Generation</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Kennzahlen -->
-    <section class="bg-slate-900 pb-20 sm:pb-28">
-        <div class="max-w-7xl mx-auto px-5 sm:px-8">
-            <div class="border-t border-slate-700 pt-14 sm:pt-20 grid grid-cols-1 sm:grid-cols-3 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-slate-700">
-
-                <div class="py-10 sm:py-0 sm:pr-16">
-                    <p class="text-[11px] font-black uppercase tracking-[0.35em] text-slate-500 mb-4">Projekte realisiert</p>
-                    <p class="text-6xl sm:text-7xl font-black text-white leading-none tracking-tighter">
-                        <span class="counter" data-target="840">0</span>+
-                    </p>
-                </div>
-
-                <div class="py-10 sm:py-0 sm:px-16">
-                    <p class="text-[11px] font-black uppercase tracking-[0.35em] text-slate-500 mb-4">Jahre Erfahrung</p>
-                    <p class="text-6xl sm:text-7xl font-black text-white leading-none tracking-tighter">
-                        <span class="counter" data-target="38">0</span>
-                    </p>
-                </div>
-
-                <div class="py-10 sm:py-0 sm:pl-16">
-                    <p class="text-[11px] font-black uppercase tracking-[0.35em] text-slate-500 mb-4">Tonnen Stahl / Jahr</p>
-                    <p class="text-6xl sm:text-7xl font-black text-white leading-none tracking-tighter">
-                        <span class="counter" data-target="1200">0</span>+
-                    </p>
-                </div>
-
-            </div>
-
-            <!-- Abschluss-Zitat -->
-            <p class="mt-16 sm:mt-20 text-[clamp(1.6rem,4vw,3rem)] font-black uppercase tracking-tighter text-white leading-tight max-w-3xl italic">
-                „Stahl formt man einmal.<br>
-                <span class="text-blue-500">Qualität bleibt."</span>
-            </p>
-            <p class="mt-4 text-[12px] font-bold uppercase tracking-[0.25em] text-slate-500">
-                — Lars Franzmann, Betriebsinhaber
-            </p>
-        </div>
-    </section>
-
 </main>
 
 <!-- ════════════════════════════════════════
@@ -337,58 +316,67 @@
      SCRIPTS
 ════════════════════════════════════════ -->
 <script>
-/* ── Menu data (weniger Punkte, besser lesbar) ── */
+/* ─── Menu data ─── */
 const MENU_CONTENT = {
     Leistungen: {
-        firstUl:  { title: "Konstruktion",  items: ["Treppenbau", "Geländersysteme", "Vordächer"] },
-        secondUl: { title: "Industriebau",  items: ["Stahlbühnen", "Hallenbau", "Rammschutz"] },
-        thirdUl:  { title: "Fertigung",     items: ["Laserschneiden", "CNC-Biegen", "Schweißarbeiten"] }
+        firstUl:  { title: "Konstruktion", items: ["Treppenbau", "Gelaendersysteme", "Vordaecher"] },
+        secondUl: { title: "Industriebau", items: ["Stahlbuehnen", "Hallenbau", "Rammschutz"] },
+        thirdUl:  { title: "Fertigung",    items: ["Laserschneiden", "CNC-Biegen", "Schweissarbeiten"] }
     },
-    Lösungen: {
-        firstUl:  { title: "Segmente",      items: ["Privatbau", "Gewerbebau", "Öffentlicher Raum"] },
-        secondUl: { title: "Materialien",   items: ["Edelstahl", "Aluminium", "C-Stahl"] },
-        thirdUl:  { title: "Spezial",       items: ["Brandschutz", "Smart Access"] }
+    Loesungen: {
+        firstUl:  { title: "Segmente",   items: ["Privatbau", "Gewerbebau", "Oeffentlicher Raum"] },
+        secondUl: { title: "Materialien",items: ["Edelstahl", "Aluminium", "C-Stahl"] },
+        thirdUl:  { title: "Spezial",    items: ["Brandschutz", "Smart Access"] }
     },
     Unternehmen: {
-        firstUl:  { title: "Profil",        items: ["Unsere Geschichte", "Team", "Zertifikate"] },
-        secondUl: { title: "Karriere",      items: ["Offene Stellen", "Ausbildung"] },
-        thirdUl:  { title: "Media",         items: ["Downloads", "News"] }
+        firstUl:  { title: "Profil",   items: ["Unsere Geschichte", "Team", "Zertifikate"] },
+        secondUl: { title: "Karriere", items: ["Offene Stellen", "Ausbildung"] },
+        thirdUl:  { title: "Media",    items: ["Downloads", "News"] }
     },
     Kontakt: {
-        firstUl:  { title: "Zentrale",      items: ["Anfahrt", "Bürozeiten"] },
-        secondUl: { title: "Direkt",        items: ["Anfrageformular", "E-Mail"] },
-        thirdUl:  { title: "Notfall",       items: ["Reparaturservice"] }
+        firstUl:  { title: "Zentrale", items: ["Anfahrt", "Buerozeiten"] },
+        secondUl: { title: "Direkt",   items: ["Anfrageformular", "E-Mail"] },
+        thirdUl:  { title: "Notfall",  items: ["Reparaturservice"] }
     }
 };
 
-/* ── Desktop mega-dropdown (instant, no animation) ── */
-const menuItems      = document.querySelectorAll('.menu-item');
-const dropdown       = document.getElementById('dropdown');
+/* Map display keys to data keys (handles umlauts) */
+const KEY_MAP = {
+    "Leistungen":  "Leistungen",
+    "L\u00f6sungen": "Loesungen",
+    "Unternehmen": "Unternehmen",
+    "Kontakt":     "Kontakt"
+};
+
+/* ─── Desktop mega-dropdown ─── */
+const menuItems     = document.querySelectorAll('.menu-item');
+const dropdown      = document.getElementById('dropdown');
 const dropdownContent = document.getElementById('dropdown-content');
+const blurBg        = document.getElementById('blur-bg');
 
 function openDropdown(key) {
-    const content = MENU_CONTENT[key];
+    const dataKey = KEY_MAP[key] || key;
+    const content = MENU_CONTENT[dataKey];
     if (!content) return;
     dropdownContent.innerHTML = '';
     ['firstUl','secondUl','thirdUl'].forEach(section => {
         const col = document.createElement('div');
-        col.className = 'flex-1';
+        col.className = "flex-1";
         col.innerHTML = `
-            <h3 class="font-black text-slate-900 uppercase text-[11px] tracking-[0.3em] mb-6 border-b border-slate-100 pb-3">
-                ${content[section].title}
-            </h3>
-            <ul class="space-y-3 text-[12px] font-bold text-slate-400 uppercase tracking-widest">
-                ${content[section].items.map(i =>
-                    `<li class="hover:text-blue-700 cursor-pointer transition-colors">${i}</li>`
-                ).join('')}
+            <h3 class="font-black text-slate-900 uppercase text-[11px] tracking-[0.3em] mb-8 border-b border-slate-100 pb-3">${content[section].title}</h3>
+            <ul class="space-y-4 text-[13px] font-bold text-slate-400 uppercase tracking-widest">
+                ${content[section].items.map(i => `<li class="hover:text-blue-700 cursor-pointer transition-colors">${i}</li>`).join('')}
             </ul>`;
         dropdownContent.appendChild(col);
     });
-    dropdown.classList.add('show');
+    dropdown.classList.remove('hidden');
+    setTimeout(() => { dropdown.classList.add('show'); blurBg.classList.add('show'); }, 10);
 }
 
 function closeDropdown() {
     dropdown.classList.remove('show');
+    blurBg.classList.remove('show');
+    setTimeout(() => { if (!dropdown.classList.contains('show')) dropdown.classList.add('hidden'); }, 400);
 }
 
 menuItems.forEach(item => {
@@ -396,35 +384,40 @@ menuItems.forEach(item => {
 });
 document.querySelector('nav').addEventListener('mouseleave', closeDropdown);
 
-/* ── Mobile hamburger + menu ── */
+/* ─── Mobile hamburger + menu ─── */
 const ham        = document.getElementById('ham');
 const mobileMenu = document.getElementById('mobile-menu');
 const mobileNav  = document.getElementById('mobile-nav-items');
 
-/* Build mobile accordion — single-column, grosse Touch-Targets */
+/* Build mobile accordion */
 Object.entries(MENU_CONTENT).forEach(([key, content]) => {
-    const allItems = [
-        ...content.firstUl.items,
-        ...content.secondUl.items,
-        ...content.thirdUl.items
-    ];
+    /* Restore display label */
+    const displayLabel = {
+        Leistungen: "Leistungen",
+        Loesungen:  "L\u00f6sungen",
+        Unternehmen:"Unternehmen",
+        Kontakt:    "Kontakt"
+    }[key] || key;
+
     const li = document.createElement('li');
     li.innerHTML = `
-        <button class="mob-acc-trigger w-full flex justify-between items-center py-5 text-[16px] font-black uppercase tracking-widest text-slate-900 focus:outline-none">
-            <span>${key}</span>
-            <svg class="mob-chevron w-4 h-4 shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <button class="mob-acc-trigger w-full flex justify-between items-center py-4 text-[15px] font-black uppercase tracking-widest text-slate-900 focus:outline-none">
+            <span>${displayLabel}</span>
+            <svg class="mob-chevron w-4 h-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
             </svg>
         </button>
-        <div class="mob-acc-body">
-            <ul class="pb-4 space-y-1 border-t border-slate-100 pt-2">
-                ${allItems.map(item => `
-                    <li>
-                        <a href="#" class="block py-3 px-2 text-[14px] font-semibold text-slate-600 hover:text-blue-700 transition-colors">
-                            ${item}
-                        </a>
-                    </li>`).join('')}
-            </ul>
+        <div class="mob-acc-body pb-2">
+            <div class="grid grid-cols-3 gap-4 pt-2 pb-4 border-t border-slate-100">
+                ${['firstUl','secondUl','thirdUl'].map(s => `
+                    <div>
+                        <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-3">${content[s].title}</p>
+                        <ul class="space-y-2.5">
+                            ${content[s].items.map(i => `<li class="text-[13px] font-bold text-slate-600 uppercase tracking-wide hover:text-blue-700 transition cursor-pointer">${i}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+            </div>
         </div>`;
     mobileNav.appendChild(li);
 });
@@ -452,53 +445,6 @@ function toggleMobile() {
     document.body.style.overflow = isOpen ? '' : 'hidden';
 }
 ham.addEventListener('click', toggleMobile);
-
-/* ── Marquee ── */
-(function () {
-    const track = document.getElementById('marquee-track');
-    if (!track) return;
-    let x = 0;
-    const speed = 0.6; // px per frame
-    function tick() {
-        x -= speed;
-        const stripeW = track.querySelector('.marquee-stripe').offsetWidth;
-        if (Math.abs(x) >= stripeW) x = 0;
-        track.style.transform = `translateX(${x}px)`;
-        requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-})();
-
-/* ── Count-up on scroll ── */
-(function () {
-    const counters = document.querySelectorAll('.counter');
-    if (!counters.length) return;
-
-    const ease = t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-
-    function animateCounter(el) {
-        const target = parseInt(el.dataset.target, 10);
-        const duration = 1600;
-        const start = performance.now();
-        function step(now) {
-            const p = Math.min((now - start) / duration, 1);
-            el.textContent = Math.round(ease(p) * target).toLocaleString('de-DE');
-            if (p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-    }
-
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                animateCounter(e.target);
-                observer.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    counters.forEach(c => observer.observe(c));
-})();
 </script>
 
 </body>

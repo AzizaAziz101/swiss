@@ -242,79 +242,6 @@
             </div>
         </div>
     </section>
-
-    <!-- ════ MARQUEE + KENNZAHLEN ════ -->
-
-    <!-- Endlosband -->
-    <div class="overflow-hidden bg-slate-900 py-6 sm:py-8 select-none" aria-hidden="true">
-        <div id="marquee-track" class="flex whitespace-nowrap">
-            <!-- zwei identische Streifen → nahtlose Schleife per JS -->
-            <div class="marquee-stripe flex items-center shrink-0">
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Stahlbau</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Präzision</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Meisterbetrieb</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">DIN EN 1090</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Zweite Generation</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-            </div>
-            <div class="marquee-stripe flex items-center shrink-0" aria-hidden="true">
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Stahlbau</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Präzision</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Meisterbetrieb</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">DIN EN 1090</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-                <span class="text-[clamp(1.5rem,4vw,2.8rem)] font-black uppercase tracking-tighter text-white italic pr-16">Zweite Generation</span>
-                <span class="text-blue-500 text-[clamp(1.5rem,4vw,2.8rem)] font-black pr-16">✦</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Kennzahlen -->
-    <section class="bg-slate-900 pb-20 sm:pb-28">
-        <div class="max-w-7xl mx-auto px-5 sm:px-8">
-            <div class="border-t border-slate-700 pt-14 sm:pt-20 grid grid-cols-1 sm:grid-cols-3 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-slate-700">
-
-                <div class="py-10 sm:py-0 sm:pr-16">
-                    <p class="text-[11px] font-black uppercase tracking-[0.35em] text-slate-500 mb-4">Projekte realisiert</p>
-                    <p class="text-6xl sm:text-7xl font-black text-white leading-none tracking-tighter">
-                        <span class="counter" data-target="840">0</span>+
-                    </p>
-                </div>
-
-                <div class="py-10 sm:py-0 sm:px-16">
-                    <p class="text-[11px] font-black uppercase tracking-[0.35em] text-slate-500 mb-4">Jahre Erfahrung</p>
-                    <p class="text-6xl sm:text-7xl font-black text-white leading-none tracking-tighter">
-                        <span class="counter" data-target="38">0</span>
-                    </p>
-                </div>
-
-                <div class="py-10 sm:py-0 sm:pl-16">
-                    <p class="text-[11px] font-black uppercase tracking-[0.35em] text-slate-500 mb-4">Tonnen Stahl / Jahr</p>
-                    <p class="text-6xl sm:text-7xl font-black text-white leading-none tracking-tighter">
-                        <span class="counter" data-target="1200">0</span>+
-                    </p>
-                </div>
-
-            </div>
-
-            <!-- Abschluss-Zitat -->
-            <p class="mt-16 sm:mt-20 text-[clamp(1.6rem,4vw,3rem)] font-black uppercase tracking-tighter text-white leading-tight max-w-3xl italic">
-                „Stahl formt man einmal.<br>
-                <span class="text-blue-500">Qualität bleibt."</span>
-            </p>
-            <p class="mt-4 text-[12px] font-bold uppercase tracking-[0.25em] text-slate-500">
-                — Lars Franzmann, Betriebsinhaber
-            </p>
-        </div>
-    </section>
-
 </main>
 
 <!-- ════════════════════════════════════════
@@ -452,53 +379,6 @@ function toggleMobile() {
     document.body.style.overflow = isOpen ? '' : 'hidden';
 }
 ham.addEventListener('click', toggleMobile);
-
-/* ── Marquee ── */
-(function () {
-    const track = document.getElementById('marquee-track');
-    if (!track) return;
-    let x = 0;
-    const speed = 0.6; // px per frame
-    function tick() {
-        x -= speed;
-        const stripeW = track.querySelector('.marquee-stripe').offsetWidth;
-        if (Math.abs(x) >= stripeW) x = 0;
-        track.style.transform = `translateX(${x}px)`;
-        requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-})();
-
-/* ── Count-up on scroll ── */
-(function () {
-    const counters = document.querySelectorAll('.counter');
-    if (!counters.length) return;
-
-    const ease = t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-
-    function animateCounter(el) {
-        const target = parseInt(el.dataset.target, 10);
-        const duration = 1600;
-        const start = performance.now();
-        function step(now) {
-            const p = Math.min((now - start) / duration, 1);
-            el.textContent = Math.round(ease(p) * target).toLocaleString('de-DE');
-            if (p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-    }
-
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                animateCounter(e.target);
-                observer.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    counters.forEach(c => observer.observe(c));
-})();
 </script>
 
 </body>
