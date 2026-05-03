@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Digitale Präzision für Metallbau | Webentwicklung fürs Handwerk</title>
+    <meta name="description" content="Moderne Websites für Metallbau- und Stahlbauunternehmen. Mehr Aufträge, bessere Bewerber, mehr Marge. Webentwicklung mit Handwerksverständnis.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,700&family=DM+Mono:wght@400;500&display=swap');
+        
+        :root {
+            --bg: #09090b;
+            --surface: #111113;
+            --surface2: #18181b;
+            --border: rgba(255,255,255,0.07);
+            --border-bright: rgba(255,255,255,0.13);
+            --text: #fafafa;
+            --muted: #71717a;
+            --muted2: #52525b;
+            --accent: #3b82f6;
+            --accent-muted: rgba(59,130,246,0.12);
+            --accent-glow: rgba(59,130,246,0.25);
+            --red: #ef4444;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        #dropdown {
+            position: absolute;
+            width: 100%;
+            top: 100%;
+            left: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            display: none;
+            z-index: 40;
+        }
+        #dropdown.show { display: flex; justify-content: center; }
+
+        #mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #mobile-menu.open { transform: translateX(0); }
+
+        .mob-acc-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mob-acc-body.open { max-height: 500px; }
+
+        .bar { display: block; width: 22px; height: 2px; background: currentColor; transition: all 0.35s ease; transform-origin: center; }
+        #ham.is-open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        #ham.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        #ham.is-open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        /* ── Noise grain overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.022;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── Grid lines (Linear-style) ── */
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+
+        /* ── Glow blob ── */
+        .hero-glow {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(ellipse at center, rgba(59,130,246,0.13) 0%, transparent 70%);
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        /* ── Tag chip ── */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border: 1px solid var(--border-bright);
+            border-radius: 4px;
+            color: var(--muted);
+            background: var(--surface2);
+            font-family: 'DM Mono', monospace;
+        }
+        .tag-blue {
+            border-color: rgba(59,130,246,0.3);
+            color: var(--accent);
+            background: var(--accent-muted);
+        }
+
+        /* ── Pain cards ── */
+        .pain-card {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            border-radius: 8px;
+            padding: 28px;
+            transition: border-color 0.2s, background 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .pain-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-muted) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .pain-card:hover {
+            border-color: rgba(59,130,246,0.3);
+        }
+        .pain-card:hover::before { opacity: 1; }
+
+        /* ── Step line ── */
+        .step-line {
+            position: absolute;
+            left: 19px;
+            top: 40px;
+            bottom: -28px;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--border-bright), transparent);
+        }
+
+        /* ── Testimonial card ── */
+        .testimonial-card {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            border-radius: 8px;
+            padding: 28px 32px;
+        }
+
+        /* ── Stat number ── */
+        .stat-number {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── CTA button ── */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.01em;
+            padding: 12px 24px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.12);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+            white-space: nowrap;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.25), 0 8px 24px rgba(59,130,246,0.3);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 14px;
+            padding: 12px 20px;
+            border: 1px solid var(--border-bright);
+            border-radius: 6px;
+            background: var(--surface2);
+            transition: border-color 0.2s, color 0.2s;
+            white-space: nowrap;
+        }
+        .btn-secondary:hover {
+            border-color: rgba(255,255,255,0.25);
+            color: var(--text);
+        }
+
+        /* ── Marquee ── */
+        .marquee-track { display: flex; white-space: nowrap; }
+
+        /* ── Section divider ── */
+        .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+        /* ── Service card ── */
+        .service-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            overflow: hidden;
+            transition: border-color 0.25s, transform 0.25s;
+        }
+        .service-card:hover {
+            border-color: rgba(59,130,246,0.3);
+            transform: translateY(-3px);
+        }
+
+        /* ── Logo row ── */
+        .logo-pill {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 20px;
+            background: var(--surface);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted2);
+            font-family: 'DM Mono', monospace;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .logo-pill:hover { border-color: var(--border-bright); color: var(--muted); }
+
+        /* ── Highlight text ── */
+        .hl { color: var(--accent); }
+        .hl-red { color: var(--red); }
+
+        /* ── Strikethrough ── */
+        .strike { text-decoration: line-through; color: var(--muted2); }
+
+        /* ── Mono label ── */
+        .mono { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; }
+
+        /* ── Check/cross ── */
+        .check { color: var(--accent); font-weight: 700; }
+        .cross { color: var(--red); font-weight: 700; }
+
+        /* ── Scroll fade-in ── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav class="fixed top-0 inset-x-0 z-50 border-b" style="background:rgba(9,9,11,0.85);backdrop-filter:blur(16px);border-color:var(--border);">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-5 sm:px-8 py-4">
+
+        <div class="flex items-center gap-12">
+            <a href="#" class="font-bold text-[15px] tracking-tight shrink-0" style="color:var(--text);">
+                Digital<span style="color:var(--accent);">Stahl</span>
+            </a>
+
+            <ul class="hidden lg:flex space-x-10 text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]" id="nav-items">
+                <li class="menu-item" data-key="Leistungen"><a href="#leistungen" class="hover:text-white transition">Leistungen</a></li>
+                <li class="menu-item" data-key="Warum">    <a href="#warum"      class="hover:text-white transition">Warum jetzt</a></li>
+                <li class="menu-item" data-key="Vorgehen"> <a href="#vorgehen"   class="hover:text-white transition">Vorgehen</a></li>
+                <li class="menu-item" data-key="Referenzen"><a href="#referenzen" class="hover:text-white transition">Referenzen</a></li>
+            </ul>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <a href="#kontakt" class="hidden sm:inline-block btn-primary">
+                Kostenlos anfragen
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <button id="ham" aria-label="Menü öffnen"
+                    class="lg:hidden flex flex-col gap-[5px] items-center justify-center w-10 h-10 focus:outline-none" style="color:var(--text);">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </div>
+
+    <div id="dropdown" class="hidden lg:hidden">
+        <div class="max-w-7xl w-full flex gap-16 p-14" id="dropdown-content"></div>
+    </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     MOBILE MENU
+════════════════════════════════════════ -->
+<div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col overflow-y-auto lg:hidden" style="background:var(--bg);">
+    <div class="px-5 pt-24 pb-12 flex-1">
+        <a href="#kontakt" class="block w-full text-center btn-primary mb-10 sm:hidden">Kostenlos anfragen</a>
+        <ul class="divide-y" style="border-color:var(--border);" id="mobile-nav-items"></ul>
+    </div>
+    <div class="px-5 py-6 border-t flex gap-6 text-[12px] font-bold uppercase tracking-widest mono" style="border-color:var(--border);color:var(--muted2);">
+        <a href="#" class="hover:text-white transition">Impressum</a>
+        <a href="#" class="hover:text-white transition">Datenschutz</a>
+        <a href="#" class="hover:text-white transition">LinkedIn</a>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     MAIN
+════════════════════════════════════════ -->
+<main class="pt-16">
+
+    <!-- ══ HERO ══ -->
+    <section class="relative grid-bg overflow-hidden pt-24 pb-28 sm:pt-32 sm:pb-40" id="hero">
+        <div class="hero-glow"></div>
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
+
+            <div class="mb-6 fade-in">
+                <span class="tag tag-blue">
+                    <span>●</span> Webentwicklung · Metallbau · Deutschland 2026
+                </span>
+            </div>
+
+            <h1 class="fade-in text-[clamp(2.6rem,7vw,6rem)] font-bold tracking-[-0.04em] leading-[1.03] mb-8 max-w-4xl" style="transition-delay:0.08s">
+                Ihre Website kostet Sie<br>
+                <span class="hl-red">Aufträge und Fachkräfte.</span><br>
+                <span style="color:var(--muted);">Jeden Tag.</span>
+            </h1>
+
+            <p class="fade-in text-[clamp(1rem,2vw,1.2rem)] leading-relaxed max-w-2xl mb-10" style="color:var(--muted);transition-delay:0.16s;">
+                Architekten sortieren Subunternehmer innerhalb von Sekunden aus. Fachkräfte entscheiden sich für den Betrieb mit der modernsten digitalen Visitenkarte. Ich baue Ihnen die Website, die das ändert — mit echtem Verständnis für das Handwerk.
+            </p>
+
+            <div class="fade-in flex flex-wrap gap-4" style="transition-delay:0.24s;">
+                <a href="#kontakt" class="btn-primary text-[15px] px-7 py-3.5">
+                    Jetzt kostenlos analysieren
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#warum" class="btn-secondary text-[15px] px-6 py-3.5">
+                    Den Status Quo verstehen
+                </a>
+            </div>
+
+            <!-- Proof-bar -->
+            <div class="fade-in mt-20 flex flex-wrap gap-x-10 gap-y-4 items-center border-t pt-10" style="border-color:var(--border);transition-delay:0.32s;">
+                <div class="mono text-[11px]" style="color:var(--muted2);">Technische Standards:</div>
+                <span class="logo-pill">DIN EN 1090</span>
+                <span class="logo-pill">EXC 2 / EXC 3</span>
+                <span class="logo-pill">DSGVO-konform</span>
+                <span class="logo-pill">Core Web Vitals A</span>
+                <span class="logo-pill">BIM-ready</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ MARQUEE ══ -->
+    <div class="overflow-hidden py-5 select-none" style="background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);" aria-hidden="true">
+        <div id="marquee-track" class="marquee-track">
+            <div class="marquee-stripe flex items-center shrink-0">
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Recruiting-Desaster vermeiden</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Premium-Preise rechtfertigen</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Architekten überzeugen</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Digitale Kompetenz beweisen</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Aufträge im Netz gewinnen</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+            </div>
+            <div class="marquee-stripe flex items-center shrink-0" aria-hidden="true">
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Recruiting-Desaster vermeiden</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Premium-Preise rechtfertigen</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Architekten überzeugen</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Digitale Kompetenz beweisen</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+                <span class="text-[13px] font-semibold uppercase tracking-[0.3em] pr-16" style="color:var(--muted2);">Aufträge im Netz gewinnen</span>
+                <span style="color:var(--accent);" class="pr-16">✦</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ SCHMERZ-ANALYSE ══ -->
+    <section class="py-24 sm:py-32" id="warum">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+
+            <div class="mb-4 fade-in"><span class="tag">Schmerz-Analyse</span></div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mb-16 sm:mb-20">
+                <div class="lg:col-span-6 fade-in">
+                    <h2 class="text-[clamp(2rem,4vw,3.2rem)] font-bold tracking-[-0.03em] leading-tight">
+                        Was eine veraltete Website<br>wirklich kostet.
+                    </h2>
+                </div>
+                <div class="lg:col-span-6 fade-in" style="transition-delay:0.1s;">
+                    <p class="text-[16px] leading-relaxed" style="color:var(--muted);">
+                        Im Metallbau zählt Präzision. Auf der Baustelle, in der Werkstatt — und seit 2026 auch digital. Wer diesen Standard nicht hält, verliert an drei Fronten gleichzeitig: Aufträge, Fachkräfte und Marge.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- Card 1 -->
+                <div class="pain-card fade-in">
+                    <div class="flex items-start gap-4 mb-5">
+                        <span class="text-2xl">👷</span>
+                        <div>
+                            <span class="mono" style="color:var(--muted2);">Problem 01</span>
+                            <h3 class="text-[18px] font-bold mt-1">Das Recruiting-Desaster</h3>
+                        </div>
+                    </div>
+                    <p class="text-[14px] leading-relaxed mb-5" style="color:var(--muted);">
+                        Qualifizierte Schlosser, Schweißer und Konstrukteure der Generation Z vergleichen Arbeitgeber wie Kunden Produkte — online, in Sekunden. Eine veraltete Website wirkt wie ein veralteter Maschinenpark: Sie signalisiert "hier stehe ich still".
+                    </p>
+                    <div class="border rounded-md px-4 py-3" style="border-color:rgba(239,68,68,0.2);background:rgba(239,68,68,0.05);">
+                        <p class="mono hl-red">Konsequenz: Der Wettbewerb mit modernerer Website gewinnt den Bewerber.</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="pain-card fade-in" style="transition-delay:0.1s;">
+                    <div class="flex items-start gap-4 mb-5">
+                        <span class="text-2xl">🏛️</span>
+                        <div>
+                            <span class="mono" style="color:var(--muted2);">Problem 02</span>
+                            <h3 class="text-[18px] font-bold mt-1">Der Architekten-Check</h3>
+                        </div>
+                    </div>
+                    <p class="text-[14px] leading-relaxed mb-5" style="color:var(--muted);">
+                        Planungsbüros und Generalunternehmer prüfen Subunternehmer zuerst digital. DSGVO-Verstöße, fehlende technische Referenzen oder eine nicht mobiloptimierte Seite landen direkt auf der Ausschlussliste — unabhängig von Ihrer tatsächlichen Qualität.
+                    </p>
+                    <div class="border rounded-md px-4 py-3" style="border-color:rgba(239,68,68,0.2);background:rgba(239,68,68,0.05);">
+                        <p class="mono hl-red">Konsequenz: Sie kommen nicht mal in die engere Auswahl.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="pain-card fade-in" style="transition-delay:0.15s;">
+                    <div class="flex items-start gap-4 mb-5">
+                        <span class="text-2xl">💶</span>
+                        <div>
+                            <span class="mono" style="color:var(--muted2);">Problem 03</span>
+                            <h3 class="text-[18px] font-bold mt-1">Preiskampf statt Wertigkeit</h3>
+                        </div>
+                    </div>
+                    <p class="text-[14px] leading-relaxed mb-5" style="color:var(--muted);">
+                        Wer digital "billig" aussieht, muss über den Preis verkaufen. Der Kunde spürt: Wenn die Visitenkarte schon so wirkt, warum sollte ich dann mehr zahlen? Eine hochwertige Website rechtfertigt Premium-Preise, bevor das erste Gespräch stattfindet.
+                    </p>
+                    <div class="border rounded-md px-4 py-3" style="border-color:rgba(239,68,68,0.2);background:rgba(239,68,68,0.05);">
+                        <p class="mono hl-red">Konsequenz: Sie drücken Ihre eigene Marge, ohne es zu merken.</p>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="pain-card fade-in" style="transition-delay:0.2s;">
+                    <div class="flex items-start gap-4 mb-5">
+                        <span class="text-2xl">🔗</span>
+                        <div>
+                            <span class="mono" style="color:var(--muted2);">Problem 04</span>
+                            <h3 class="text-[18px] font-bold mt-1">Fehlende digitale Schnittstellen</h3>
+                        </div>
+                    </div>
+                    <p class="text-[14px] leading-relaxed mb-5" style="color:var(--muted);">
+                        Eine Website 2026 ist kein Prospekt mehr. Kunden erwarten sichtbare Kompetenz: CAD-Kompatibilität, BIM-Integration, strukturierte Projektanfragen. Wer das nicht zeigt, wirkt technisch rückständig — auch wenn das Gegenteil der Fall ist.
+                    </p>
+                    <div class="border rounded-md px-4 py-3" style="border-color:rgba(239,68,68,0.2);background:rgba(239,68,68,0.05);">
+                        <p class="mono hl-red">Konsequenz: Digitale Kompetenz bleibt unsichtbar — und wird bezweifelt.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ VERGLEICH ALT vs. NEU ══ -->
+    <section class="py-16 sm:py-24" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8">
+            <div class="mb-12 fade-in text-center">
+                <span class="tag mb-4">Der Unterschied auf einen Blick</span>
+                <h2 class="text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold tracking-[-0.03em] mt-4">Veraltete Website vs. Professionelle Präsenz</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 fade-in">
+                <!-- Alt -->
+                <div class="border rounded-lg p-6" style="border-color:rgba(239,68,68,0.2);background:rgba(239,68,68,0.04);">
+                    <div class="mono hl-red mb-5 text-[11px]">● Status Quo — Was Kunden sehen</div>
+                    <ul class="space-y-3 text-[14px]" style="color:var(--muted);">
+                        <li class="flex gap-3"><span class="cross shrink-0">✗</span> Lädt über 4 Sekunden auf dem Handy</li>
+                        <li class="flex gap-3"><span class="cross shrink-0">✗</span> Kein SSL-Zertifikat, kein DSGVO-Hinweis</li>
+                        <li class="flex gap-3"><span class="cross shrink-0">✗</span> Referenzen als unklikbare JPG-Galerie</li>
+                        <li class="flex gap-3"><span class="cross shrink-0">✗</span> Kein Hinweis auf Zertifizierungen (DIN EN 1090)</li>
+                        <li class="flex gap-3"><span class="cross shrink-0">✗</span> Kontaktformular aus 2015, kein strukturierter Anfrageprozess</li>
+                        <li class="flex gap-3"><span class="cross shrink-0">✗</span> Kein einziger Google-Treffer bei relevanten Suchbegriffen</li>
+                    </ul>
+                </div>
+                <!-- Neu -->
+                <div class="border rounded-lg p-6" style="border-color:rgba(59,130,246,0.25);background:var(--accent-muted);">
+                    <div class="mono hl mb-5 text-[11px]">● Ihre neue Website — Was Kunden erleben</div>
+                    <ul class="space-y-3 text-[14px]" style="color:var(--muted);">
+                        <li class="flex gap-3"><span class="check shrink-0">✓</span> Core Web Vitals: A — unter 1,5 Sek. Ladezeit</li>
+                        <li class="flex gap-3"><span class="check shrink-0">✓</span> Vollständig DSGVO-konform, SSL, sicher gehostet</li>
+                        <li class="flex gap-3"><span class="check shrink-0">✓</span> Interaktive Referenzdatenbank mit Projektdetails</li>
+                        <li class="flex gap-3"><span class="check shrink-0">✓</span> Sichtbare Zertifizierungen und technische Standards</li>
+                        <li class="flex gap-3"><span class="check shrink-0">✓</span> Strukturierter Anfrageprozess für Architekten & Industrie</li>
+                        <li class="flex gap-3"><span class="check shrink-0">✓</span> SEO für regionale Suchanfragen im Metallbau optimiert</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ LÖSUNG / LEISTUNGEN ══ -->
+    <section class="py-24 sm:py-32" id="leistungen">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+
+            <div class="mb-4 fade-in"><span class="tag">Die Lösung</span></div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mb-16">
+                <div class="lg:col-span-6 fade-in">
+                    <h2 class="text-[clamp(2rem,4vw,3.2rem)] font-bold tracking-[-0.03em] leading-tight">
+                        Webentwicklung mit Verständnis<br>für das Handwerk.
+                    </h2>
+                </div>
+                <div class="lg:col-span-6 fade-in" style="transition-delay:0.1s;">
+                    <p class="text-[16px] leading-relaxed" style="color:var(--muted);">
+                        Ich bin kein Agentur-Mitarbeiter, der Ihre Branche aus dem Wiki kennt. Ich habe Metallbaubetriebe von innen erlebt und weiß, was Architekten suchen, was Fachkräfte überzeugt und welche Sprache Ihre Kunden sprechen.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div class="service-card fade-in">
+                    <div class="p-7 border-b" style="border-color:var(--border);">
+                        <div class="text-3xl mb-4">⚡</div>
+                        <h3 class="font-bold text-[17px] mb-2">Strategie & Positionierung</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Bevor wir eine Zeile Code schreiben, analysieren wir, wo Ihr Betrieb im lokalen Markt steht und wen Sie künftig gewinnen wollen — Architekten, Industrie oder Privatbau.</p>
+                    </div>
+                    <div class="p-5">
+                        <ul class="space-y-2 text-[13px] mono" style="color:var(--muted2);">
+                            <li>— Wettbewerber-Analyse</li>
+                            <li>— Zielgruppenpositionierung</li>
+                            <li>— Content-Struktur</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in" style="transition-delay:0.08s;">
+                    <div class="p-7 border-b" style="border-color:var(--border);">
+                        <div class="text-3xl mb-4">🏗️</div>
+                        <h3 class="font-bold text-[17px] mb-2">Design & Entwicklung</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Modernes Design, das Präzision und Qualität ausstrahlt — kein Template, sondern eine maßgefertigte Präsenz, die Ihre Arbeit würdig repräsentiert.</p>
+                    </div>
+                    <div class="p-5">
+                        <ul class="space-y-2 text-[13px] mono" style="color:var(--muted2);">
+                            <li>— Mobile-First Entwicklung</li>
+                            <li>— Interaktive Referenzen</li>
+                            <li>— Performance A-Rating</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in" style="transition-delay:0.16s;">
+                    <div class="p-7 border-b" style="border-color:var(--border);">
+                        <div class="text-3xl mb-4">📍</div>
+                        <h3 class="font-bold text-[17px] mb-2">SEO & regionale Sichtbarkeit</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Wenn ein Architekt in Ihrer Region nach "Treppenbau Edelstahl" sucht — steht dann Ihr Betrieb oder der Wettbewerb oben?</p>
+                    </div>
+                    <div class="p-5">
+                        <ul class="space-y-2 text-[13px] mono" style="color:var(--muted2);">
+                            <li>— Lokales SEO</li>
+                            <li>— Google Business Setup</li>
+                            <li>— Strukturierte Daten</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in" style="transition-delay:0.04s;">
+                    <div class="p-7 border-b" style="border-color:var(--border);">
+                        <div class="text-3xl mb-4">🔒</div>
+                        <h3 class="font-bold text-[17px] mb-2">DSGVO & Rechtssicherheit</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Planungsbüros prüfen DSGVO-Konformität als Ausschlusskriterium. Wir liefern eine Seite, die vor Abmahnungen schützt und Seriosität signalisiert.</p>
+                    </div>
+                    <div class="p-5">
+                        <ul class="space-y-2 text-[13px] mono" style="color:var(--muted2);">
+                            <li>— DSGVO-konformes Setup</li>
+                            <li>— SSL & sicheres Hosting</li>
+                            <li>— Impressum & Datenschutz</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in" style="transition-delay:0.12s;">
+                    <div class="p-7 border-b" style="border-color:var(--border);">
+                        <div class="text-3xl mb-4">📂</div>
+                        <h3 class="font-bold text-[17px] mb-2">Recruiting-Optimierung</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Eine eigene Karriereseite, die zeigt, warum Ihr Betrieb ein attraktiver Arbeitgeber ist — für Fachkräfte, die wählen können.</p>
+                    </div>
+                    <div class="p-5">
+                        <ul class="space-y-2 text-[13px] mono" style="color:var(--muted2);">
+                            <li>— Karriereseite & Stellenanzeigen</li>
+                            <li>— Team & Kultur-Darstellung</li>
+                            <li>— Bewerbungsformular</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in" style="transition-delay:0.2s; border-color:rgba(59,130,246,0.25); background:var(--accent-muted);">
+                    <div class="p-7 border-b" style="border-color:rgba(59,130,246,0.2);">
+                        <div class="text-3xl mb-4">🔄</div>
+                        <h3 class="font-bold text-[17px] mb-2 hl">Laufende Partnerschaft</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Kein einmaliges Projekt und dann Funkstille. Ich stehe als langfristiger Partner bereit — für Updates, neue Referenzen, Anpassungen und Weiterentwicklung.</p>
+                    </div>
+                    <div class="p-5">
+                        <ul class="space-y-2 text-[13px] mono" style="color:var(--muted2);">
+                            <li>— Monatliche Updates möglich</li>
+                            <li>— Direkte Ansprechperson</li>
+                            <li>— Keine Agentur-Bürokratie</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ VORGEHEN ══ -->
+    <section class="py-24 sm:py-32" id="vorgehen" style="border-top:1px solid var(--border);">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+            <div class="mb-4 fade-in"><span class="tag">Das Vorgehen</span></div>
+            <h2 class="fade-in text-[clamp(2rem,4vw,3.2rem)] font-bold tracking-[-0.03em] leading-tight mb-16 sm:mb-20">
+                Von der Analyse zur<br>fertigen Website. Klar strukturiert.
+            </h2>
+
+            <div class="space-y-0">
+                <!-- Step 1 -->
+                <div class="flex gap-7 fade-in relative pb-12">
+                    <div class="relative shrink-0">
+                        <div class="w-10 h-10 rounded-full border flex items-center justify-center text-[13px] font-bold mono" style="border-color:var(--border-bright);background:var(--surface2);color:var(--accent);">01</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="pt-2 pb-4">
+                        <h3 class="font-bold text-[18px] mb-2">Kostenlose Website-Analyse</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Ich analysiere Ihre aktuelle Website auf technische Defizite, SEO-Lücken und Conversion-Schwachstellen. Sie erhalten einen konkreten Bericht — unverbindlich und kostenlos. Kein Sales-Gespräch, keine versteckten Absichten.</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex gap-7 fade-in relative pb-12">
+                    <div class="relative shrink-0">
+                        <div class="w-10 h-10 rounded-full border flex items-center justify-center text-[13px] font-bold mono" style="border-color:var(--border-bright);background:var(--surface2);color:var(--accent);">02</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="pt-2 pb-4">
+                        <h3 class="font-bold text-[18px] mb-2">Strategie-Gespräch</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Wir klären: Was soll die neue Website leisten? Mehr Anfragen von Architekten? Bessere Bewerber? Ein Angebot, das Premium-Preise rechtfertigt? Daraus entsteht ein konkretes Konzept mit Seitenstruktur und Zielgruppe.</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex gap-7 fade-in relative pb-12">
+                    <div class="relative shrink-0">
+                        <div class="w-10 h-10 rounded-full border flex items-center justify-center text-[13px] font-bold mono" style="border-color:var(--border-bright);background:var(--surface2);color:var(--accent);">03</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="pt-2 pb-4">
+                        <h3 class="font-bold text-[18px] mb-2">Design & Entwicklung</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Innerhalb von 3–5 Wochen entsteht Ihre neue Website. Sie sehen den Fortschritt laufend — keine Black Box, kein "Wir melden uns wieder". Feedback-Runden sind eingeplant, nicht Ausnahme.</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="flex gap-7 fade-in">
+                    <div class="relative shrink-0">
+                        <div class="w-10 h-10 rounded-full border flex items-center justify-center text-[13px] font-bold mono" style="border-color:rgba(59,130,246,0.4);background:var(--accent-muted);color:var(--accent);">04</div>
+                    </div>
+                    <div class="pt-2">
+                        <h3 class="font-bold text-[18px] mb-2">Go-Live & Übergabe</h3>
+                        <p class="text-[14px] leading-relaxed" style="color:var(--muted);">Wir gehen live — mit technisch einwandfreiem Setup, DSGVO-Dokumentation, SEO-Grundkonfiguration und einer Einweisung, damit Sie eigenständig Inhalte ergänzen können.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ KENNZAHLEN ══ -->
+    <section class="py-20 sm:py-28" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-0 divide-y sm:divide-y-0 sm:divide-x" style="border-color:var(--border);">
+                <div class="py-10 sm:py-0 sm:pr-16">
+                    <p class="mono mb-4" style="color:var(--muted2);font-size:11px;letter-spacing:0.3em;">Durchschnittliche Ladezeit</p>
+                    <p class="stat-number"><span class="counter" data-target="1" data-decimal="true">0</span>,4 Sek.</p>
+                    <p class="text-[13px] mt-3" style="color:var(--muted);">Auf mobilem Gerät — Branchenschnitt liegt bei über 4 Sekunden.</p>
+                </div>
+                <div class="py-10 sm:py-0 sm:px-16">
+                    <p class="mono mb-4" style="color:var(--muted2);font-size:11px;letter-spacing:0.3em;">Mehr Anfragen</p>
+                    <p class="stat-number">+<span class="counter" data-target="60">0</span>%</p>
+                    <p class="text-[13px] mt-3" style="color:var(--muted);">Typische Steigerung der Kontaktanfragen nach Website-Relaunch.</p>
+                </div>
+                <div class="py-10 sm:py-0 sm:pl-16">
+                    <p class="mono mb-4" style="color:var(--muted2);font-size:11px;letter-spacing:0.3em;">Lieferzeit</p>
+                    <p class="stat-number"><span class="counter" data-target="5">0</span> Wo.</p>
+                    <p class="text-[13px] mt-3" style="color:var(--muted);">Von der ersten Analyse bis zum Go-Live. Verbindlich vereinbart.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ REFERENZEN / SOCIAL PROOF ══ -->
+    <section class="py-24 sm:py-32" id="referenzen">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+
+            <div class="mb-4 fade-in"><span class="tag">Stimmen aus der Branche</span></div>
+            <h2 class="fade-in text-[clamp(2rem,4vw,3.2rem)] font-bold tracking-[-0.03em] leading-tight mb-14">
+                Was Metallbaubetriebe<br>nach dem Relaunch berichten.
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
+                <div class="testimonial-card fade-in">
+                    <div class="flex items-center gap-1 mb-5" style="color:var(--accent);">★★★★★</div>
+                    <p class="text-[14px] leading-relaxed mb-6" style="color:var(--muted);">„Innerhalb von vier Wochen nach dem Go-Live haben wir zwei Anfragen von Architekturbüros erhalten, die uns vorher nie kontaktiert hätten. Die neue Seite strahlt genau die Qualität aus, für die wir stehen."</p>
+                    <div class="border-t pt-5" style="border-color:var(--border);">
+                        <p class="font-bold text-[14px]">Referenz · Platzhalter</p>
+                        <p class="mono text-[11px] mt-1" style="color:var(--muted2);">Metallbau GmbH · Süddeutschland · EXC 2 zertifiziert</p>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in" style="transition-delay:0.1s;">
+                    <div class="flex items-center gap-1 mb-5" style="color:var(--accent);">★★★★★</div>
+                    <p class="text-[14px] leading-relaxed mb-6" style="color:var(--muted);">„Wir hatten monatelang Probleme, Auszubildende zu finden. Seit der neuen Karriereseite kommen Bewerbungen rein, ohne dass wir aktiv suchen. Das hätte ich nicht gedacht."</p>
+                    <div class="border-t pt-5" style="border-color:var(--border);">
+                        <p class="font-bold text-[14px]">Referenz · Platzhalter</p>
+                        <p class="mono text-[11px] mt-1" style="color:var(--muted2);">Schlosserei & Stahlbau · Nordrhein-Westfalen · 12 Mitarbeiter</p>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in" style="transition-delay:0.2s;">
+                    <div class="flex items-center gap-1 mb-5" style="color:var(--accent);">★★★★★</div>
+                    <p class="text-[14px] leading-relaxed mb-6" style="color:var(--muted);">„Endlich jemand, der nicht nur 'schön' liefert, sondern versteht, was wir als Betrieb brauchen. Die technischen Details — DIN EN 1090, unsere Maschinenausstattung — sind jetzt sichtbar und verständlich dargestellt."</p>
+                    <div class="border-t pt-5" style="border-color:var(--border);">
+                        <p class="font-bold text-[14px]">Referenz · Platzhalter</p>
+                        <p class="mono text-[11px] mt-1" style="color:var(--muted2);">Stahlbau & Konstruktion · Bayern · Industriekunden</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standards/Zertifizierungen als Vertrauensanker -->
+            <div class="border rounded-lg p-8 sm:p-10 fade-in" style="border-color:var(--border);background:var(--surface);">
+                <p class="mono mb-6 text-[11px]" style="color:var(--muted2);">Technische Standards, die ich kenne und sichtbar mache:</p>
+                <div class="flex flex-wrap gap-3">
+                    <span class="logo-pill">DIN EN 1090-1/-2</span>
+                    <span class="logo-pill">EXC 1 bis EXC 3</span>
+                    <span class="logo-pill">DIN EN ISO 3834</span>
+                    <span class="logo-pill">CE-Kennzeichnung Stahlbau</span>
+                    <span class="logo-pill">BIM-Kompetenz</span>
+                    <span class="logo-pill">CAD / IFC-Daten</span>
+                    <span class="logo-pill">VOB-Vergabeprozesse</span>
+                    <span class="logo-pill">Meisterbetrieb HWK</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ CTA ══ -->
+    <section class="py-24 sm:py-32 relative overflow-hidden" id="kontakt" style="background:var(--surface);border-top:1px solid var(--border);">
+        <div class="absolute inset-0" style="background:radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.1) 0%, transparent 65%);pointer-events:none;"></div>
+        <div class="max-w-3xl mx-auto px-5 sm:px-8 text-center relative z-10">
+
+            <div class="mb-6 fade-in"><span class="tag tag-blue">Jetzt handeln</span></div>
+            <h2 class="fade-in text-[clamp(2.2rem,5vw,4rem)] font-bold tracking-[-0.04em] leading-tight mb-6" style="transition-delay:0.08s;">
+                Wie viel kostet Sie<br>eine schlechte Website<br>noch <span class="hl">dieses Jahr</span>?
+            </h2>
+            <p class="fade-in text-[16px] leading-relaxed mb-10" style="color:var(--muted);transition-delay:0.16s;">
+                Lassen Sie uns das gemeinsam herausfinden. Die kostenlose Website-Analyse zeigt Ihnen in konkreten Zahlen, was auf dem Spiel steht — und was eine moderne Präsenz für Ihren Betrieb bedeuten kann.
+            </p>
+
+            <div class="fade-in flex flex-wrap gap-4 justify-center mb-12" style="transition-delay:0.24s;">
+                <a href="mailto:anfrage@digitalstahl.de" class="btn-primary text-[15px] px-8 py-4">
+                    Kostenlose Analyse anfragen
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+
+            <p class="fade-in mono text-[11px]" style="color:var(--muted2);transition-delay:0.32s;">
+                Keine Agentur. Keine Massenlösungen. Direkter Kontakt — kein Warteschleifen-Gespräch.
+            </p>
+
+            <!-- Contact details -->
+            <div class="fade-in mt-12 border rounded-lg p-7 text-left" style="border-color:var(--border);background:var(--bg);transition-delay:0.36s;">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div>
+                        <p class="mono text-[11px] mb-2" style="color:var(--muted2);">E-Mail</p>
+                        <p class="text-[14px] font-medium">anfrage@digitalstahl.de</p>
+                    </div>
+                    <div>
+                        <p class="mono text-[11px] mb-2" style="color:var(--muted2);">Antwortzeit</p>
+                        <p class="text-[14px] font-medium">Innerhalb von 24 Stunden</p>
+                    </div>
+                    <div>
+                        <p class="mono text-[11px] mb-2" style="color:var(--muted2);">Erstgespräch</p>
+                        <p class="text-[14px] font-medium">Kostenlos & unverbindlich</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer class="py-10" style="border-top:1px solid var(--border);background:var(--bg);">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
+        <p class="mono text-[11px]" style="color:var(--muted2);">
+            © 2026 DigitalStahl — Webentwicklung für Metallbau · Deutschland
+        </p>
+        <div class="flex gap-6 sm:gap-8 mono text-[11px]" style="color:var(--muted2);">
+            <a href="#" class="hover:text-white transition">Impressum</a>
+            <a href="#" class="hover:text-white transition">Datenschutz</a>
+            <a href="#" class="hover:text-white transition">LinkedIn</a>
+        </div>
+    </div>
+</footer>
+
+<!-- ════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════ -->
+<script>
+/* ── Menu data ── */
+const MENU_CONTENT = {
+    Leistungen: {
+        firstUl:  { title: "Websites",     items: ["Strategie & Konzept", "Design & Entwicklung", "Referenz-Darstellung"] },
+        secondUl: { title: "Sichtbarkeit", items: ["SEO für Metallbau", "Lokales SEO", "Google Business"] },
+        thirdUl:  { title: "Technik",      items: ["Performance-Optimierung", "DSGVO-Setup", "Hosting & Sicherheit"] }
+    },
+    Warum: {
+        firstUl:  { title: "Herausforderungen", items: ["Fachkräftemangel", "Architekten überzeugen", "Preiskampf vermeiden"] },
+        secondUl: { title: "Status Quo",         items: ["Website-Analyse", "Branchenvergleich", "Potenzial-Check"] },
+        thirdUl:  { title: "Der Unterschied",    items: ["Alt vs. Modern", "ROI berechnen"] }
+    },
+    Vorgehen: {
+        firstUl:  { title: "Prozess",       items: ["Kostenlose Analyse", "Strategie-Gespräch", "Design & Entwicklung"] },
+        secondUl: { title: "Timeline",      items: ["5 Wochen bis Go-Live", "Feedback-Runden", "Übergabe & Einweisung"] },
+        thirdUl:  { title: "Partnerschaft", items: ["Laufende Updates", "Direkter Kontakt"] }
+    },
+    Referenzen: {
+        firstUl:  { title: "Projekte",       items: ["Stahlbau-Betriebe", "Schlossereien", "Industriebau"] },
+        secondUl: { title: "Ergebnisse",     items: ["Mehr Anfragen", "Bessere Bewerber", "Premium-Preise"] },
+        thirdUl:  { title: "Standards",      items: ["DIN EN 1090", "EXC-Zertifizierungen", "BIM-Kompetenz"] }
+    }
+};
+
+/* ── Desktop dropdown ── */
+const menuItems      = document.querySelectorAll('.menu-item');
+const dropdown       = document.getElementById('dropdown');
+const dropdownContent = document.getElementById('dropdown-content');
+
+function openDropdown(key) {
+    const content = MENU_CONTENT[key];
+    if (!content) return;
+    dropdownContent.innerHTML = '';
+    ['firstUl','secondUl','thirdUl'].forEach(section => {
+        const col = document.createElement('div');
+        col.className = 'flex-1';
+        col.innerHTML = `
+            <h3 style="color:var(--muted2);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;" class="mb-5 border-b pb-3" style="border-color:var(--border);">
+                ${content[section].title}
+            </h3>
+            <ul class="space-y-3" style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em;">
+                ${content[section].items.map(i =>
+                    `<li style="cursor:pointer;transition:color 0.15s;" onmouseenter="this.style.color='var(--accent)'" onmouseleave="this.style.color='var(--muted)'">${i}</li>`
+                ).join('')}
+            </ul>`;
+        dropdownContent.appendChild(col);
+    });
+    dropdown.classList.add('show');
+}
+function closeDropdown() { dropdown.classList.remove('show'); }
+
+menuItems.forEach(item => item.addEventListener('mouseenter', () => openDropdown(item.dataset.key)));
+document.querySelector('nav').addEventListener('mouseleave', closeDropdown);
+
+/* ── Mobile menu ── */
+const ham        = document.getElementById('ham');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileNav  = document.getElementById('mobile-nav-items');
+
+Object.entries(MENU_CONTENT).forEach(([key, content]) => {
+    const allItems = [...content.firstUl.items, ...content.secondUl.items, ...content.thirdUl.items];
+    const li = document.createElement('li');
+    li.innerHTML = `
+        <button class="mob-acc-trigger w-full flex justify-between items-center py-5 text-[15px] font-bold uppercase tracking-widest focus:outline-none" style="color:var(--text);">
+            <span>${key}</span>
+            <svg class="mob-chevron w-4 h-4 shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="mob-acc-body">
+            <ul class="pb-4 space-y-1 border-t pt-2" style="border-color:var(--border);">
+                ${allItems.map(item => `<li><a href="#" class="block py-3 px-2 text-[13px] font-semibold transition-colors" style="color:var(--muted);" onmouseenter="this.style.color='var(--accent)'" onmouseleave="this.style.color='var(--muted)'">${item}</a></li>`).join('')}
+            </ul>
+        </div>`;
+    mobileNav.appendChild(li);
+});
+
+mobileNav.querySelectorAll('.mob-acc-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const body    = btn.nextElementSibling;
+        const chevron = btn.querySelector('.mob-chevron');
+        const isOpen  = body.classList.contains('open');
+        mobileNav.querySelectorAll('.mob-acc-body').forEach(b => b.classList.remove('open'));
+        mobileNav.querySelectorAll('.mob-chevron').forEach(c => c.style.transform = '');
+        if (!isOpen) { body.classList.add('open'); chevron.style.transform = 'rotate(180deg)'; }
+    });
+});
+
+function toggleMobile() {
+    const isOpen = mobileMenu.classList.contains('open');
+    ham.classList.toggle('is-open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+}
+ham.addEventListener('click', toggleMobile);
+
+/* ── Marquee ── */
+(function () {
+    const track = document.getElementById('marquee-track');
+    if (!track) return;
+    let x = 0;
+    const speed = 0.5;
+    function tick() {
+        x -= speed;
+        const stripeW = track.querySelector('.marquee-stripe').offsetWidth;
+        if (Math.abs(x) >= stripeW) x = 0;
+        track.style.transform = `translateX(${x}px)`;
+        requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+})();
+
+/* ── Count-up ── */
+(function () {
+    const counters = document.querySelectorAll('.counter');
+    if (!counters.length) return;
+    const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+    function animateCounter(el) {
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1400;
+        const start = performance.now();
+        function step(now) {
+            const p = Math.min((now - start) / duration, 1);
+            el.textContent = Math.round(ease(p) * target).toLocaleString('de-DE');
+            if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); observer.unobserve(e.target); } });
+    }, { threshold: 0.5 });
+    counters.forEach(c => observer.observe(c));
+})();
+
+/* ── Scroll fade-in ── */
+(function () {
+    const els = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    els.forEach(el => observer.observe(el));
+})();
+</script>
+
+</body>
+</html>
