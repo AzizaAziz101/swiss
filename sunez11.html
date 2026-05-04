@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -60,8 +61,8 @@
         /* ── HERO ── */
         .hero-section {
             min-height: 100svh;
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-rows: 1fr auto;
             padding-top: 80px;
             position: relative;
             overflow: hidden;
@@ -77,14 +78,13 @@
 
         .hero-content {
             position: relative;
-            z-index: 3;
+            z-index: 2;
             display: grid;
             grid-template-columns: 1fr;
             align-items: end;
             padding: 5vw 5vw 0;
             gap: 2rem;
             min-width: 0;
-            flex: 1;
         }
 
         @media (min-width: 1024px) {
@@ -98,24 +98,11 @@
             letter-spacing: -0.04em;
             text-transform: uppercase;
             font-style: italic;
-            position: relative;
-            z-index: 4;
-            margin-bottom: -0.32em;
-        }
-
-        @media (max-width: 1023px) {
-            .hero-headline { margin-bottom: 0; }
         }
 
         .hero-headline em {
             font-style: italic;
             color: var(--blue);
-        }
-
-        .hero-headline .overlap-word {
-            display: inline-block;
-            background: #fff;
-            padding-right: 0.12em;
         }
 
         .hero-right {
@@ -152,13 +139,12 @@
             z-index: 2;
             width: 100%;
             overflow: hidden;
-            flex-shrink: 0;
         }
 
         .hero-image-container {
             display: grid;
             grid-template-columns: 3fr 1fr;
-            height: clamp(280px, 42vh, 520px);
+            height: clamp(260px, 38vh, 500px);
             gap: 0;
         }
 
@@ -174,16 +160,6 @@
         .hero-img-main img {
             width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .hero-img-main::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 42%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.7), transparent);
-            pointer-events: none;
-            z-index: 1;
         }
 
         .hero-img-side {
@@ -655,7 +631,7 @@
                 <h1 class="hero-headline reveal reveal-delay-1">
                     Metall<em>bau</em><br>
                     Daniel<br>
-                    <em><span class="overlap-word">Franzmann.</span></em>
+                    <em>Franzmann.</em>
                 </h1>
             </div>
 
@@ -1300,5 +1276,3 @@ ham.addEventListener('click', toggleMobile);
 </script>
 </body>
 </html>
-
-
