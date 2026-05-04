@@ -65,6 +65,7 @@
             padding-top: 80px;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .hero-bg {
@@ -82,6 +83,7 @@
             align-items: end;
             padding: 5vw 5vw 0;
             gap: 2rem;
+            min-width: 0;
         }
 
         @media (min-width: 1024px) {
@@ -89,7 +91,7 @@
         }
 
         .hero-headline {
-            font-size: clamp(3.8rem, 9.5vw, 11rem);
+            font-size: clamp(2.8rem, 6.5vw, 7rem);
             font-weight: 900;
             line-height: 0.88;
             letter-spacing: -0.04em;
@@ -367,11 +369,7 @@
             bottom: 0; left: 0; right: 0;
             padding: 2rem;
             background: linear-gradient(to top, rgba(15,23,42,0.85), transparent);
-            transform: translateY(3rem);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .segment-card:hover .seg-info { transform: translateY(0); }
 
         .segment-card .seg-title {
             font-size: clamp(1rem, 1.5vw, 1.2rem);
