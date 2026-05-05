@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
     /* ═══════════════════════════════════════
@@ -24,8 +24,8 @@
         --mist:       #f2f5f4;
         --line:       #dde4e3;
         --white:      #ffffff;
-        --serif: 'Space Grotesk', system-ui, sans-serif;
-        --sans:  'DM Sans', system-ui, sans-serif;
+        --serif:      'DM Serif Display', Georgia, serif;
+        --sans:       'DM Sans', system-ui, sans-serif;
         --nav-h:      64px;
     }
 
@@ -158,12 +158,10 @@
     #nav-items {
         display: flex;
         list-style: none;
-        gap: 40px;
-        margin-left: auto;
-        padding-right: 40px;
+        gap: 36px;
     }
     .menu-item > a {
-        font-size: 13.5px;
+        font-size: 12.5px;
         font-weight: 500;
         letter-spacing: 0.04em;
         color: var(--ink-soft);
@@ -219,7 +217,7 @@
     }
     .drop-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     .drop-col ul li a {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 500;
         color: var(--ink-soft);
         text-decoration: none;
@@ -269,19 +267,10 @@
         z-index: 55;
         background: var(--white);
         overflow-y: auto;
-        pointer-events: none;
-        visibility: hidden;
         transform: translateX(100%);
-        transition: transform 0.38s cubic-bezier(0.16,1,0.3,1),
-                    visibility 0s linear 0.38s;
+        transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
     }
-    #mobile-menu.open {
-        transform: translateX(0);
-        pointer-events: auto;
-        visibility: visible;
-        transition: transform 0.38s cubic-bezier(0.16,1,0.3,1),
-                    visibility 0s linear 0s;
-    }
+    #mobile-menu.open { transform: translateX(0); }
 
     .mob-inner { padding: 24px 24px 0; }
 
@@ -294,7 +283,7 @@
         display: flex; justify-content: space-between; align-items: center;
         padding: 18px 0;
         font-family: var(--sans);
-        font-size: 15px; font-weight: 700;
+        font-size: 14px; font-weight: 700;
         letter-spacing: 0.06em; text-transform: uppercase;
         color: var(--ink); text-align: left;
     }
@@ -312,7 +301,7 @@
     .mob-acc-body ul { list-style: none; padding-bottom: 16px; display: flex; flex-direction: column; }
     .mob-acc-body ul li a {
         display: block; padding: 10px 8px;
-        font-size: 15px; font-weight: 500;
+        font-size: 13.5px; font-weight: 500;
         color: var(--ink-soft); text-decoration: none;
         border-radius: 4px;
         transition: color 0.18s, background 0.18s;
@@ -372,7 +361,7 @@
 
     .hero-h1 {
         font-family: var(--serif);
-        font-size: clamp(3.2rem, 6vw, 5.5rem);
+        font-size: clamp(2.6rem, 5vw, 4.4rem);
         font-weight: 400;
         line-height: 1.06;
         letter-spacing: -0.02em;
@@ -382,7 +371,7 @@
     .hero-h1 em { font-style: italic; color: var(--teal); }
 
     .hero-sub {
-        font-size: 17px;
+        font-size: 16px;
         line-height: 1.75;
         color: var(--ink-soft);
         max-width: 44ch;
@@ -478,7 +467,7 @@
     .intro-col:last-child { border-right: none; padding-right: 0; }
     .intro-num { font-family: var(--serif); font-size: 38px; color: var(--teal); line-height: 1; margin-bottom: 10px; }
     .intro-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
-    .intro-col p { font-size: 16px; line-height: 1.65; color: var(--ink-soft); }
+    .intro-col p { font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
 
     @media (max-width: 768px) {
         .intro-grid { grid-template-columns: 1fr; padding: 36px 20px; }
@@ -520,7 +509,7 @@
     .gi-title { font-size: 13px; font-weight: 600; color: #fff; }
 
     .gallery-more { margin-top: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .gallery-count { font-size: 14px; color: var(--ink-soft); }
+    .gallery-count { font-size: 12.5px; color: var(--ink-soft); }
 
     @media (max-width: 768px) {
         .gallery-inner { padding: 48px 20px; }
@@ -545,7 +534,7 @@
         gap: 60px;
         align-items: start;
     }
-    .services-lede p { font-size: 16.5px; line-height: 1.7; color: var(--ink-soft); margin: 14px 0 22px; }
+    .services-lede p { font-size: 15.5px; line-height: 1.7; color: var(--ink-soft); margin: 14px 0 22px; }
 
     .srv-grid {
         display: grid;
@@ -571,8 +560,8 @@
     }
     .srv-cell:hover::after { width: 100%; }
     .srv-icon { width: 28px; height: 28px; color: var(--teal); margin-bottom: 10px; opacity: 0.85; }
-    .srv-cell h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
-    .srv-cell p { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+    .srv-cell h4 { font-size: 13px; font-weight: 700; margin-bottom: 5px; color: var(--ink); }
+    .srv-cell p { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
 
     @media (max-width: 960px) {
         .services-inner { padding: 48px 20px; }
@@ -598,8 +587,8 @@
     .seg-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
     .seg-card:hover img { transform: scale(1.04); }
     .seg-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 22px 20px; background: linear-gradient(to top, rgba(8,45,45,0.88), transparent); }
-    .seg-title { font-family: var(--serif); font-size: 18px; color: #fff; margin-bottom: 6px; }
-    .seg-desc { font-size: 14px; line-height: 1.55; color: rgba(255,255,255,0.7); }
+    .seg-title { font-family: var(--serif); font-size: 17px; color: #fff; margin-bottom: 6px; }
+    .seg-desc { font-size: 12.5px; line-height: 1.55; color: rgba(255,255,255,0.7); }
 
     @media (max-width: 768px) {
         .segments-inner { padding: 48px 20px; }
@@ -624,8 +613,8 @@
     }
     .why-cell { background: var(--white); padding: 28px 24px; }
     .why-num { font-family: var(--serif); font-size: 34px; color: var(--teal); line-height: 1; margin-bottom: 14px; }
-    .why-cell h4 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 10px; line-height: 1.35; }
-    .why-cell p { font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
+    .why-cell h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 10px; line-height: 1.35; }
+    .why-cell p { font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
 
     @media (max-width: 960px) {
         .why-inner { padding: 48px 20px; }
@@ -676,7 +665,7 @@
     .cta-inner .label::before { background: rgba(255,255,255,0.32); }
     .cta-h { font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; color: #fff; margin: 16px 0 20px; max-width: 16ch; }
     .cta-h em { font-style: italic; color: var(--teal-light); }
-    .cta-sub { font-size: 17px; line-height: 1.75; color: rgba(255,255,255,0.48); max-width: 48ch; margin-bottom: 36px; }
+    .cta-sub { font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.48); max-width: 48ch; margin-bottom: 36px; }
     .cta-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
     @media (max-width: 768px) { .cta-inner { padding: 60px 20px; } }
@@ -693,7 +682,7 @@
     .footer-tagline { font-size: 12px; color: rgba(255,255,255,0.28); margin-top: 4px; }
     .footer-cols { display: flex; gap: 44px; flex-wrap: wrap; }
     .footer-col h5 { font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 10px; }
-    .footer-col p { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .footer-col p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
     .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
     .footer-copy { font-size: 11px; color: rgba(255,255,255,0.18); letter-spacing: 0.1em; text-transform: uppercase; }
     .footer-links { display: flex; gap: 22px; }
@@ -720,7 +709,7 @@
 ══════════════════════════════════ -->
 <nav id="nav">
     <div class="nav-inner">
-        <a href="index.html" class="nav-logo">Daniel Franzmann<span>.</span></a>
+        <a href="index.html" class="nav-logo">Franzmann<span>.</span></a>
 
         <ul id="nav-items">
             <li class="menu-item" data-key="Leistungen"><a href="#">Leistungen</a></li>
@@ -1348,4 +1337,3 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
-

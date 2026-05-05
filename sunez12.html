@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
     /* ═══════════════════════════════════════
@@ -24,8 +24,8 @@
         --mist:       #f2f5f4;
         --line:       #dde4e3;
         --white:      #ffffff;
-        --serif: 'Space Grotesk', system-ui, sans-serif;
-        --sans:  'DM Sans', system-ui, sans-serif;
+        --serif: 'Figtree', system-ui, sans-serif;
+        --sans:  'Figtree', system-ui, sans-serif;
         --nav-h:      64px;
     }
 
@@ -102,9 +102,9 @@
     h2.sh {
         font-family: var(--serif);
         font-size: clamp(1.8rem, 3vw, 2.6rem);
-        font-weight: 400;
+        font-weight: 700;
         line-height: 1.1;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.03em;
         margin-top: 10px;
     }
     .section-head {
@@ -147,6 +147,7 @@
     .nav-logo {
         font-family: var(--serif);
         font-size: 20px;
+        font-weight: 700;
         color: var(--ink);
         text-decoration: none;
         flex-shrink: 0;
@@ -270,17 +271,14 @@
         background: var(--white);
         overflow-y: auto;
         pointer-events: none;
-        visibility: hidden;
+        opacity: 0;
         transform: translateX(100%);
-        transition: transform 0.38s cubic-bezier(0.16,1,0.3,1),
-                    visibility 0s linear 0.38s;
+        transition: transform 0.36s cubic-bezier(0.16,1,0.3,1), opacity 0.36s ease;
     }
     #mobile-menu.open {
         transform: translateX(0);
+        opacity: 1;
         pointer-events: auto;
-        visibility: visible;
-        transition: transform 0.38s cubic-bezier(0.16,1,0.3,1),
-                    visibility 0s linear 0s;
     }
 
     .mob-inner { padding: 24px 24px 0; }
@@ -372,14 +370,14 @@
 
     .hero-h1 {
         font-family: var(--serif);
-        font-size: clamp(3.2rem, 6vw, 5.5rem);
-        font-weight: 400;
+        font-size: clamp(2.6rem, 5vw, 4.4rem);
+        font-weight: 800;
         line-height: 1.06;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.03em;
         color: var(--ink);
         margin-bottom: 22px;
     }
-    .hero-h1 em { font-style: italic; color: var(--teal); }
+    .hero-h1 em { font-style: normal; color: var(--teal); }
 
     .hero-sub {
         font-size: 17px;
@@ -409,7 +407,7 @@
         padding: 18px 22px;
         display: flex; flex-direction: column; gap: 4px;
     }
-    .hero-badge strong { font-family: var(--serif); font-size: 24px; line-height: 1; }
+    .hero-badge strong { font-family: var(--serif); font-size: 22px; font-weight: 800; line-height: 1; }
     .hero-badge span { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.72; }
 
     .hero-trust {
@@ -476,7 +474,7 @@
     }
     .intro-col:first-child { padding-left: 0; }
     .intro-col:last-child { border-right: none; padding-right: 0; }
-    .intro-num { font-family: var(--serif); font-size: 38px; color: var(--teal); line-height: 1; margin-bottom: 10px; }
+    .intro-num { font-family: var(--serif); font-size: 38px; font-weight: 800; color: var(--teal); line-height: 1; margin-bottom: 10px; }
     .intro-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
     .intro-col p { font-size: 16px; line-height: 1.65; color: var(--ink-soft); }
 
@@ -598,7 +596,7 @@
     .seg-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
     .seg-card:hover img { transform: scale(1.04); }
     .seg-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 22px 20px; background: linear-gradient(to top, rgba(8,45,45,0.88), transparent); }
-    .seg-title { font-family: var(--serif); font-size: 18px; color: #fff; margin-bottom: 6px; }
+    .seg-title { font-family: var(--serif); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 6px; }
     .seg-desc { font-size: 14px; line-height: 1.55; color: rgba(255,255,255,0.7); }
 
     @media (max-width: 768px) {
@@ -623,7 +621,7 @@
         margin-top: 44px;
     }
     .why-cell { background: var(--white); padding: 28px 24px; }
-    .why-num { font-family: var(--serif); font-size: 34px; color: var(--teal); line-height: 1; margin-bottom: 14px; }
+    .why-num { font-family: var(--serif); font-size: 34px; font-weight: 800; color: var(--teal); line-height: 1; margin-bottom: 14px; }
     .why-cell h4 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 10px; line-height: 1.35; }
     .why-cell p { font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
 
@@ -644,12 +642,12 @@
     .stat-block:first-child { padding-left: 0; }
     .stat-block:last-child { border-right: none; }
     .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.38); margin-bottom: 12px; }
-    .stat-val { font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.4rem); color: #fff; line-height: 1; letter-spacing: -0.02em; }
+    .stat-val { font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 800; color: #fff; line-height: 1; letter-spacing: -0.03em; }
     .stat-val sup { font-family: var(--sans); font-size: 38%; vertical-align: super; color: var(--teal-light); }
 
     .quote-block { display: flex; gap: 18px; align-items: flex-start; max-width: 640px; }
     .qbar { width: 3px; flex-shrink: 0; align-self: stretch; background: var(--teal-light); }
-    .qtext { font-family: var(--serif); font-size: clamp(1.25rem, 2.5vw, 1.9rem); font-style: italic; color: #fff; line-height: 1.3; margin-bottom: 14px; }
+    .qtext { font-family: var(--serif); font-size: clamp(1.25rem, 2.5vw, 1.9rem); font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 14px; }
     .qtext em { font-style: normal; color: var(--teal-light); }
     .qattr { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
 
@@ -674,8 +672,8 @@
     .cta-inner { max-width: 1280px; margin: 0 auto; padding: 88px 32px; position: relative; z-index: 1; }
     .cta-inner .label { color: rgba(255,255,255,0.32); }
     .cta-inner .label::before { background: rgba(255,255,255,0.32); }
-    .cta-h { font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; color: #fff; margin: 16px 0 20px; max-width: 16ch; }
-    .cta-h em { font-style: italic; color: var(--teal-light); }
+    .cta-h { font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; color: #fff; margin: 16px 0 20px; max-width: 16ch; }
+    .cta-h em { font-style: normal; color: var(--teal-light); }
     .cta-sub { font-size: 17px; line-height: 1.75; color: rgba(255,255,255,0.48); max-width: 48ch; margin-bottom: 36px; }
     .cta-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
@@ -688,7 +686,7 @@
     .footer-inner { max-width: 1280px; margin: 0 auto; padding: 44px 32px 28px; }
 
     .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; padding-bottom: 28px; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 22px; flex-wrap: wrap; }
-    .footer-logo { font-family: var(--serif); font-size: 18px; color: #fff; text-decoration: none; display: block; }
+    .footer-logo { font-family: var(--serif); font-size: 18px; font-weight: 700; color: #fff; text-decoration: none; display: block; }
     .footer-logo span { color: var(--teal-light); }
     .footer-tagline { font-size: 12px; color: rgba(255,255,255,0.28); margin-top: 4px; }
     .footer-cols { display: flex; gap: 44px; flex-wrap: wrap; }
@@ -720,7 +718,7 @@
 ══════════════════════════════════ -->
 <nav id="nav">
     <div class="nav-inner">
-        <a href="index.html" class="nav-logo">Daniel Franzmann<span>.</span></a>
+        <a href="index.html" class="nav-logo">Franzmann<span>.</span></a>
 
         <ul id="nav-items">
             <li class="menu-item" data-key="Leistungen"><a href="#">Leistungen</a></li>
@@ -1348,4 +1346,3 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
-
