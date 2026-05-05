@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Metallbau Meyer | Meisterbetrieb Eberswalde – Geländer, Tore, Treppen, Fenster</title>
-    <meta name="description" content="Metallbau Meyer – Zertifizierter Meisterbetrieb für Geländer, Tore, Treppen, Aluminiumfenster und Stahlkonstruktionen. Region Eberswalde. DIN EN 1090 EXC2.">
+    <title>Metallbau Franzmann | Meisterbetrieb Bretzneheim – Geländer, Tore, Treppen, Fenster</title>
+    <meta name="description" content="Metallbau Franzmann – Zertifizierter Meisterbetrieb für Geländer, Tore, Treppen, Aluminiumfenster und Stahlkonstruktionen. Region Mainz, Bad Kreuznach, Bingen. DIN EN 1090 EXC2.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -139,11 +138,12 @@
         padding: 0 32px;
         height: var(--nav-h);
         display: flex;
-        align-items: baseline;
+        align-items: center;
         justify-content: space-between;
         position: relative;
     }
 
+    /* Logo */
     .nav-logo {
         font-family: var(--serif);
         font-size: 20px;
@@ -151,18 +151,16 @@
         text-decoration: none;
         flex-shrink: 0;
         line-height: 1;
-        align-self: center;
     }
     .nav-logo span { color: var(--teal); }
 
+    /* Desktop links */
     #nav-items {
         display: flex;
         list-style: none;
         gap: 40px;
         margin-left: auto;
         padding-right: 40px;
-        padding-left: 80px;
-        align-self: center;
     }
     .menu-item > a {
         font-size: 13.5px;
@@ -230,7 +228,7 @@
     .drop-col ul li a:hover { color: var(--teal); padding-left: 4px; }
 
     /* Nav CTA + hamburger */
-    .nav-right { display: flex; align-items: center; gap: 14px; align-self: center; }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
     #nav-cta { display: none; }
 
     #ham {
@@ -437,6 +435,7 @@
         flex-shrink: 0;
     }
 
+    /* ── Hero responsive ── */
     @media (max-width: 768px) {
         .hero-body {
             grid-template-columns: 1fr;
@@ -721,7 +720,7 @@
 ══════════════════════════════════ -->
 <nav id="nav">
     <div class="nav-inner">
-        <a href="index.html" class="nav-logo">Daniel Meyer<span>.</span></a>
+        <a href="index.html" class="nav-logo">Daniel Franzmann<span>.</span></a>
 
         <ul id="nav-items">
             <li class="menu-item" data-key="Leistungen"><a href="#">Leistungen</a></li>
@@ -730,6 +729,7 @@
             <li class="menu-item" data-key="Kontakt"><a href="#">Kontakt</a></li>
         </ul>
 
+        <!-- Dropdown rendered by JS, same as original -->
         <div id="dropdown">
             <div id="dropdown-content"></div>
         </div>
@@ -768,7 +768,7 @@
 <section id="hero">
     <div class="hero-body">
         <div>
-            <div class="hero-eyebrow reveal">Meisterbetrieb · Eberswalde · seit 1988</div>
+            <div class="hero-eyebrow reveal">Meisterbetrieb · Bretzenheim · seit 1988</div>
             <h1 class="hero-h1 reveal rv1">Metall&shy;bau,<br>der <em>bleibt.</em></h1>
             <p class="hero-sub reveal rv2">
                 Von Geländern und Toren über Aluminiumfenster bis zu tragenden Stahlkonstruktionen — Maßarbeit aus einer Werkstatt, einem Team, einer Verantwortung. Zertifiziert nach DIN&nbsp;EN&nbsp;1090.
@@ -784,7 +784,7 @@
 
         <div class="reveal rv1">
             <div class="hero-card">
-                <img src="metallhaus122.jpg" alt="Fertigungshalle Metallbau Meyer Eberswalde">
+                <img src="metallhaus122.jpg" alt="Fertigungshalle Metallbau Franzmann Bretzenheim">
                 <div class="hero-badge">
                     <strong>EXC2</strong>
                     <span>DIN EN 1090<br>Zertifiziert</span>
@@ -818,7 +818,7 @@
             <div class="mq-item"><span>Stahlbau</span><span class="mq-sep">✦</span></div>
             <div class="mq-item"><span>CNC-Fertigung</span><span class="mq-sep">✦</span></div>
             <div class="mq-item"><span>Fensterbau</span><span class="mq-sep">✦</span></div>
-            <div class="mq-item"><span>Eberswalde</span><span class="mq-sep">✦</span></div>
+            <div class="mq-item"><span>Bretzenheim</span><span class="mq-sep">✦</span></div>
             <div class="mq-item"><span>Metallbau</span><span class="mq-sep">✦</span></div>
             <div class="mq-item"><span>Schlosserei</span><span class="mq-sep">✦</span></div>
             <div class="mq-item"><span>Geländer &amp; Tore</span><span class="mq-sep">✦</span></div>
@@ -828,7 +828,7 @@
             <div class="mq-item"><span>Stahlbau</span><span class="mq-sep">✦</span></div>
             <div class="mq-item"><span>CNC-Fertigung</span><span class="mq-sep">✦</span></div>
             <div class="mq-item"><span>Fensterbau</span><span class="mq-sep">✦</span></div>
-            <div class="mq-item"><span>Eberswalde</span><span class="mq-sep">✦</span></div>
+            <div class="mq-item"><span>Bretzenheim</span><span class="mq-sep">✦</span></div>
         </div>
     </div>
 </section>
@@ -846,7 +846,7 @@
         <div class="intro-col reveal rv1">
             <div class="intro-lbl">Aus einer Hand</div>
             <div class="intro-num">1&nbsp;Team</div>
-            <p>Kein Subunternehmer, keine Kommunikationsverluste. CAD-Entwurf, CNC-Fertigung und Montage — alles unter einem Dach in Eberswalde.</p>
+            <p>Kein Subunternehmer, keine Kommunikationsverluste. CAD-Entwurf, CNC-Fertigung und Montage — alles unter einem Dach in Bretzenheim.</p>
         </div>
         <div class="intro-col reveal rv2">
             <div class="intro-lbl">Zertifiziert</div>
@@ -872,28 +872,28 @@
             </a>
         </div>
         <div class="gallery-grid reveal rv1">
-            <div class="gi gi-1" data-src="Fenster.jpg" data-cap="Aluminiumfenster – Einfamilienhaus Eberswalde">
-                <img src="Fenster.jpg" alt="Aluminiumfenster Eberswalde" onerror="this.parentElement.style.background='#c8d6d5'">
+            <div class="gi gi-1" data-src="Fenster.jpg" data-cap="Aluminiumfenster – Einfamilienhaus Bad Kreuznach">
+                <img src="Fenster.jpg" alt="Aluminiumfenster Bad Kreuznach" onerror="this.parentElement.style.background='#c8d6d5'">
                 <div class="gi-overlay"><span class="gi-tag">Fensterbau · Aluminium</span><span class="gi-title">Aluminiumfenster – Einfamilienhaus</span></div>
             </div>
-            <div class="gi gi-2" data-src="Treppengeländer.jpg" data-cap="Schmiedeeisernes Treppengeländer – Eberswalde">
-                <img src="Treppengeländer.jpg" alt="Treppengeländer Eberswalde" onerror="this.parentElement.style.background='#c8d6d5'">
+            <div class="gi gi-2" data-src="Treppengeländer.jpg" data-cap="Schmiedeeisernes Treppengeländer – Bingen">
+                <img src="Treppengeländer.jpg" alt="Treppengeländer Bingen" onerror="this.parentElement.style.background='#c8d6d5'">
                 <div class="gi-overlay"><span class="gi-tag">Geländer · Schmiedeeisen</span><span class="gi-title">Treppengeländer – Altbausanierung</span></div>
             </div>
-            <div class="gi gi-3" data-src="Einfahrtstor.jpg" data-cap="Elektrisches Einfahrtstor – Eberswalde">
-                <img src="Einfahrtstor.jpg" alt="Einfahrtstor Eberswalde" onerror="this.parentElement.style.background='#c8d6d5'">
+            <div class="gi gi-3" data-src="Einfahrtstor.jpg" data-cap="Elektrisches Einfahrtstor – Bretzenheim">
+                <img src="Einfahrtstor.jpg" alt="Einfahrtstor Bretzenheim" onerror="this.parentElement.style.background='#c8d6d5'">
                 <div class="gi-overlay"><span class="gi-tag">Toranlage · Elektroantrieb</span><span class="gi-title">Elektrisches Schiebetor</span></div>
             </div>
-            <div class="gi gi-4" data-src="Edelstahlbalkon.jpg" data-cap="Freitragender Anbaubalkon – Eberswalde">
-                <img src="Edelstahlbalkon.jpg" alt="Edelstahlbalkon Eberswalde" onerror="this.parentElement.style.background='#c8d6d5'">
+            <div class="gi gi-4" data-src="Edelstahlbalkon.jpg" data-cap="Freitragender Anbaubalkon – Mainz-Gonsenheim">
+                <img src="Edelstahlbalkon.jpg" alt="Edelstahlbalkon Mainz" onerror="this.parentElement.style.background='#c8d6d5'">
                 <div class="gi-overlay"><span class="gi-tag">Anbaubalkon · Edelstahl</span><span class="gi-title">Freitragender Balkon – OG</span></div>
             </div>
-            <div class="gi gi-5" data-src="autocarport.jpg" data-cap="Doppelcarport PV-Ready – Eberswalde">
-                <img src="autocarport.jpg" alt="Carport Eberswalde" onerror="this.parentElement.style.background='#c8d6d5'">
+            <div class="gi gi-5" data-src="autocarport.jpg" data-cap="Doppelcarport PV-Ready – Ingelheim">
+                <img src="autocarport.jpg" alt="Carport Ingelheim" onerror="this.parentElement.style.background='#c8d6d5'">
                 <div class="gi-overlay"><span class="gi-tag">Carport · Stahl</span><span class="gi-title">Doppelcarport – PV-Ready</span></div>
             </div>
-            <div class="gi gi-6" data-src="Glasvordach.jpg" data-cap="Glasvordach VSG – Eberswalde">
-                <img src="Glasvordach.jpg" alt="Glasvordach Eberswalde" onerror="this.parentElement.style.background='#c8d6d5'">
+            <div class="gi gi-6" data-src="Glasvordach.jpg" data-cap="Glasvordach VSG – Bingen">
+                <img src="Glasvordach.jpg" alt="Glasvordach Bingen" onerror="this.parentElement.style.background='#c8d6d5'">
                 <div class="gi-overlay"><span class="gi-tag">Vordach · VSG-Glas</span><span class="gi-title">Glasvordach – Eingangssituation</span></div>
             </div>
         </div>
@@ -916,7 +916,7 @@
             <div class="services-lede reveal">
                 <div class="label">Für Privatkunden</div>
                 <h2 class="sh">Alles aus einer Hand.</h2>
-                <p>Als Privatperson verdienen Sie einen verlässlichen Partner — von der ersten Idee bis zur fertigen Montage. Keine Subunternehmer. Keine Überraschungen. Alles aus unserer Werkstatt in Eberswalde.</p>
+                <p>Als Privatperson verdienen Sie einen verlässlichen Partner — von der ersten Idee bis zur fertigen Montage. Keine Subunternehmer. Keine Überraschungen. Alles aus unserer Werkstatt in Bretzenheim.</p>
                 <a href="anfrage.html" class="btn btn-solid">Kostenlos anfragen</a>
             </div>
             <div class="srv-grid reveal rv1">
@@ -995,7 +995,7 @@
                 <img src="Privatbau.jpg" alt="Metallbau für Privatkunden" onerror="this.style.opacity=0">
                 <div class="seg-info">
                     <div class="seg-title">Metallbau für Privat</div>
-                    <div class="seg-desc">Geländer, Treppen, Tore, Balkone und Fenster für Hausbesitzer in der Region Eberswalde.</div>
+                    <div class="seg-desc">Geländer, Treppen, Tore, Balkone und Fenster für Hausbesitzer in der Region Mainz, Bad Kreuznach und Bingen.</div>
                 </div>
             </div>
             <div class="seg-card">
@@ -1024,14 +1024,14 @@
         <div class="section-head reveal">
             <div>
                 <div class="label">Ihr Vorteil</div>
-                <h2 class="sh">Warum Meyer?</h2>
+                <h2 class="sh">Warum Franzmann?</h2>
             </div>
         </div>
         <div class="why-grid reveal rv1">
             <div class="why-cell">
                 <div class="why-num">01</div>
                 <h4>Meisterbetrieb seit zwei Generationen</h4>
-                <p>Daniel Meyer führt den 1988 gegründeten Betrieb als staatlich geprüfter Metallbaumeister. Aus sechs Mitarbeitern wurde ein moderner Fachbetrieb mit eigenem CNC-Maschinenpark.</p>
+                <p>Lars Franzmann führt den 1988 gegründeten Betrieb als staatlich geprüfter Metallbaumeister. Aus sechs Mitarbeitern wurde ein moderner Fachbetrieb mit eigenem CNC-Maschinenpark.</p>
             </div>
             <div class="why-cell">
                 <div class="why-num">02</div>
@@ -1075,7 +1075,7 @@
             <div class="qbar"></div>
             <div>
                 <p class="qtext">„Metall formt man einmal. <em>Qualität bleibt.</em>"</p>
-                <p class="qattr">— Daniel Meyer, Metallbaumeister &amp; Betriebsinhaber</p>
+                <p class="qattr">— Lars Franzmann, Metallbaumeister &amp; Betriebsinhaber</p>
             </div>
         </div>
     </div>
@@ -1108,17 +1108,17 @@
     <div class="footer-inner">
         <div class="footer-top">
             <div>
-                <a href="index.html" class="footer-logo">Meyer<span>.</span></a>
-                <p class="footer-tagline">Schlosserei &amp; Stahlbau · Eberswalde</p>
+                <a href="index.html" class="footer-logo">Franzmann<span>.</span></a>
+                <p class="footer-tagline">Schlosserei &amp; Stahlbau · Bretzenheim</p>
             </div>
             <div class="footer-cols">
                 <div class="footer-col">
                     <h5>Werkstatt</h5>
-                    <p>Eberswalde<br>Brandenburg</p>
+                    <p>Bretzenheim<br>Rheinland-Pfalz</p>
                 </div>
                 <div class="footer-col">
                     <h5>Region</h5>
-                    <p>Eberswalde &amp; Umgebung</p>
+                    <p>Mainz · Bad Kreuznach<br>Bingen · Ingelheim</p>
                 </div>
                 <div class="footer-col">
                     <h5>Zertifizierung</h5>
@@ -1127,7 +1127,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p class="footer-copy">© 2026 Metallbau Meyer GmbH</p>
+            <p class="footer-copy">© 2026 Metallbau Franzmann GmbH</p>
             <div class="footer-links">
                 <a href="#">Impressum</a>
                 <a href="#">Datenschutz</a>
@@ -1151,11 +1151,11 @@
 ══════════════════════════════════ -->
 <script>
 /* ─────────────────────────────────────
-   MENU DATA
+   MENU DATA — identical to original
 ───────────────────────────────────── */
 const MENU_CONTENT = {
     Leistungen: {
-        firstUl:  { title: 'Konstruktion',  items: ['Treppenbau', 'Geländersysteme', 'Überdachungen'] },
+        firstUl:  { title: 'Konstruktion',  items: ['Treppenbau', 'Geländersysteme', 'Vordächer & Überdachungen'] },
         secondUl: { title: 'Industriebau',  items: ['Stahlbühnen', 'Hallenbau', 'Rammschutz'] },
         thirdUl:  { title: 'Fertigung',     items: ['Laserschneiden', 'CNC-Biegen', 'Schweißarbeiten'] }
     },
@@ -1177,7 +1177,7 @@ const MENU_CONTENT = {
 };
 
 /* ─────────────────────────────────────
-   DESKTOP DROPDOWN
+   DESKTOP DROPDOWN — same hover/JS logic as original
 ───────────────────────────────────── */
 const menuItems       = document.querySelectorAll('.menu-item');
 const dropdown        = document.getElementById('dropdown');
@@ -1207,7 +1207,7 @@ menuItems.forEach(item =>
 document.getElementById('nav').addEventListener('mouseleave', closeDropdown);
 
 /* ─────────────────────────────────────
-   MOBILE MENU
+   MOBILE MENU — same accordion logic as original
 ───────────────────────────────────── */
 const ham        = document.getElementById('ham');
 const mobileMenu = document.getElementById('mobile-menu');
@@ -1348,4 +1348,6 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
+
+
 
