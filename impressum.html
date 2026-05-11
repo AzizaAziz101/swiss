@@ -2,61 +2,401 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impressum - Antonio Hoeft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Impressum | Metallbau Meyer – Eberswalde</title>
+    <meta name="description" content="Impressum von Metallbau Meyer, Meisterbetrieb in Eberswalde. Angaben gemäß § 5 TMG.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-            background-color: #f9f9f9;
-        }
-        .container {
-            background: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; color: #000; }
-        h2 { margin-top: 30px; color: #444; font-size: 1.25rem; }
-        p { margin-bottom: 10px; }
-        .back-link { display: inline-block; margin-top: 30px; text-decoration: none; color: #0066cc; font-weight: bold; }
-        .back-link:hover { text-decoration: underline; }
+    :root {
+        --teal:       #0d6e6e;
+        --teal-light: #14a5a5;
+        --teal-dark:  #084f4f;
+        --teal-glow:  rgba(13,110,110,0.10);
+        --ink:        #111716;
+        --ink-soft:   #3a4240;
+        --mist:       #f2f5f4;
+        --line:       #dde4e3;
+        --white:      #ffffff;
+        --serif: 'Space Grotesk', system-ui, sans-serif;
+        --sans:  'DM Sans', system-ui, sans-serif;
+        --nav-h: 76px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: var(--sans);
+        font-size: 17px;
+        background: var(--white);
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        line-height: 1.75;
+    }
+    img { max-width: 100%; height: auto; }
+    svg { display: block; }
+
+    .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-family: var(--sans); font-size: 13px; font-weight: 700;
+        letter-spacing: 0.14em; text-transform: uppercase;
+        cursor: pointer; transition: all 0.2s ease;
+        text-decoration: none; white-space: nowrap;
+    }
+    .btn-solid { background: var(--teal); color: var(--white); padding: 15px 32px; }
+    .btn-solid:hover { background: var(--teal-dark); }
+
+    /* ── NAV ── */
+    #nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--line);
+        transition: box-shadow 0.3s;
+    }
+    #nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.06); }
+    .nav-inner {
+        max-width: 1340px; margin: 0 auto; padding: 0 40px;
+        height: var(--nav-h);
+        display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+        font-family: var(--serif); font-size: 22px; color: var(--ink);
+        text-decoration: none; flex-shrink: 0; line-height: 1; letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--teal); }
+    #nav-items {
+        display: flex; list-style: none; gap: 44px;
+        margin-left: auto; padding-right: 44px; padding-left: 80px; align-items: center;
+    }
+    .menu-item > a {
+        font-size: 15px; font-weight: 600; letter-spacing: 0.03em;
+        color: var(--ink-soft); text-decoration: none;
+        padding-bottom: 4px; transition: color 0.15s; display: block;
+        border-bottom: 2px solid transparent;
+    }
+    .menu-item > a:hover { color: var(--teal); border-bottom-color: var(--teal); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    #nav-cta { display: none; }
+    #ham {
+        display: none; flex-direction: column; gap: 5px;
+        background: none; border: none; cursor: pointer; padding: 8px; color: var(--ink);
+    }
+    .bar { display: block; width: 24px; height: 2px; background: currentColor; border-radius: 1px; transition: all 0.3s ease; transform-origin: center; }
+    #ham.open .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #ham.open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #ham.open .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 1020px) {
+        #nav-items { display: none; }
+        #ham { display: flex; }
+        .nav-inner { padding: 0 24px; }
+        #nav-cta { display: none !important; }
+    }
+
+    /* ── MOBILE MENU ── */
+    #mobile-menu {
+        position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0; z-index: 55;
+        background: var(--white); overflow-y: auto;
+        pointer-events: none; visibility: hidden;
+        transform: translateX(100%);
+        transition: transform 0.38s cubic-bezier(0.16,1,0.3,1), visibility 0s linear 0.38s;
+    }
+    #mobile-menu.open {
+        transform: translateX(0); pointer-events: auto; visibility: visible;
+        transition: transform 0.38s cubic-bezier(0.16,1,0.3,1), visibility 0s linear 0s;
+    }
+    .mob-inner { padding: 28px 28px 0; }
+    #mobile-nav-items { list-style: none; }
+    #mobile-nav-items > li { border-bottom: 1px solid var(--line); }
+    #mobile-nav-items > li > a {
+        display: block; padding: 20px 0;
+        font-family: var(--sans); font-size: 17px; font-weight: 700;
+        letter-spacing: 0.06em; text-transform: uppercase;
+        color: var(--ink); text-decoration: none; transition: color 0.15s;
+    }
+    #mobile-nav-items > li > a:hover { color: var(--teal); }
+    .mob-cta-wrap { padding: 28px; }
+    .mob-cta-wrap .btn-solid { width: 100%; justify-content: center; font-size: 14px; padding: 16px 28px; }
+    .mob-footer {
+        padding: 22px 28px; border-top: 1px solid var(--line);
+        display: flex; gap: 24px; font-size: 12px; font-weight: 700;
+        letter-spacing: 0.18em; text-transform: uppercase; flex-wrap: wrap;
+    }
+    .mob-footer a { color: var(--ink-soft); text-decoration: none; transition: color 0.18s; }
+    .mob-footer a:hover { color: var(--teal); }
+
+    @media (max-width: 480px) {
+        .mob-inner { padding: 20px 20px 0; }
+        .mob-cta-wrap { padding: 20px; }
+        .mob-footer { padding: 16px 20px; }
+    }
+
+    /* ── PAGE ── */
+    .legal-wrap { padding-top: var(--nav-h); min-height: 100svh; }
+
+    .legal-hero {
+        background: var(--mist);
+        border-bottom: 1px solid var(--line);
+        padding: 64px 40px 56px;
+    }
+    .legal-hero-inner { max-width: 1340px; margin: 0 auto; }
+    .legal-eyebrow {
+        display: inline-flex; align-items: center; gap: 10px;
+        font-size: 12px; font-weight: 700; letter-spacing: 0.22em;
+        text-transform: uppercase; color: var(--teal); margin-bottom: 18px;
+    }
+    .legal-eyebrow::before {
+        content: ''; display: block; width: 20px; height: 1.5px; background: var(--teal);
+    }
+    .legal-hero h1 {
+        font-family: var(--serif);
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        font-weight: 400; line-height: 1.08; letter-spacing: -0.02em; color: var(--ink);
+    }
+
+    .legal-body {
+        max-width: 1340px; margin: 0 auto;
+        padding: 64px 40px 96px;
+        display: grid; grid-template-columns: 200px 1fr; gap: 80px; align-items: start;
+    }
+
+    .legal-toc { position: sticky; top: calc(var(--nav-h) + 24px); }
+    .legal-toc-label {
+        font-size: 11px; font-weight: 700; letter-spacing: 0.24em;
+        text-transform: uppercase; color: var(--teal);
+        margin-bottom: 16px; border-bottom: 1px solid var(--line); padding-bottom: 10px;
+    }
+    .legal-toc ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .legal-toc ul li a {
+        font-size: 14px; font-weight: 500; color: var(--ink-soft);
+        text-decoration: none; transition: color 0.15s, padding-left 0.15s; display: block;
+    }
+    .legal-toc ul li a:hover { color: var(--teal); padding-left: 4px; }
+
+    .legal-content { border-left: 1px solid var(--line); padding-left: 64px; }
+    .legal-section { margin-bottom: 52px; }
+    .legal-section:last-of-type { margin-bottom: 0; }
+    .legal-section h2 {
+        font-family: var(--serif); font-size: 1.35rem; font-weight: 400;
+        color: var(--ink); margin-bottom: 16px; padding-bottom: 12px;
+        border-bottom: 1px solid var(--line);
+    }
+    .legal-section p {
+        font-size: 16px; line-height: 1.8; color: var(--ink-soft); margin-bottom: 12px;
+    }
+    .legal-section p:last-child { margin-bottom: 0; }
+    .legal-section a { color: var(--teal); text-decoration: none; }
+    .legal-section a:hover { text-decoration: underline; }
+    .legal-section strong { color: var(--ink); font-weight: 600; }
+
+    .legal-back {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-size: 13px; font-weight: 700; letter-spacing: 0.14em;
+        text-transform: uppercase; color: var(--teal); text-decoration: none;
+        margin-top: 52px; border-bottom: 1.5px solid var(--teal);
+        padding-bottom: 3px; transition: gap 0.2s;
+    }
+    .legal-back:hover { gap: 14px; }
+
+    @media (max-width: 1020px) {
+        .legal-body { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px 72px; }
+        .legal-toc { position: static; }
+        .legal-content { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 40px; }
+    }
+    @media (max-width: 640px) {
+        .legal-hero { padding: 48px 24px 40px; }
+        .legal-body { padding: 40px 24px 60px; }
+    }
+    @media (max-width: 480px) {
+        .legal-hero { padding: 40px 20px 32px; }
+        .legal-body { padding: 32px 20px 52px; gap: 0; }
+        .legal-toc { display: none; }
+    }
+
+    /* ── FOOTER ── */
+    #footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07); }
+    .footer-inner { max-width: 1340px; margin: 0 auto; padding: 48px 40px 32px; }
+    .footer-top {
+        display: flex; justify-content: space-between; align-items: flex-start;
+        gap: 36px; padding-bottom: 32px;
+        border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .footer-logo { font-family: var(--serif); font-size: 20px; color: #fff; text-decoration: none; display: block; }
+    .footer-logo span { color: var(--teal-light); }
+    .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.3); margin-top: 5px; }
+    .footer-cols { display: flex; gap: 48px; flex-wrap: wrap; }
+    .footer-col h5 { font-size: 11px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 12px; }
+    .footer-col p { font-size: 15px; color: rgba(255,255,255,0.45); line-height: 1.65; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.18); letter-spacing: 0.1em; text-transform: uppercase; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.28); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--teal-light); }
+
+    @media (max-width: 800px) { .footer-inner { padding: 40px 24px 28px; } }
+    @media (max-width: 480px) {
+        .footer-inner { padding: 32px 20px 24px; }
+        .footer-cols { gap: 24px; }
+        .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Impressum</h1>
-        
-        <h2>Angaben gemäß § 5 TMG</h2>
-        <p>
-            Antonio Hoeft<br>
-            Webdeveloper<br>
-            Gormannstraße 19a<br>
-            10119 Berlin
-        </p>
-        
-        <h2>Kontakt</h2>
-        <p>
-            Telefon: +49 162 5426438<br>
-            E-Mail: tonihoeftofficial@googlemail.com
-        </p>
-        
-        <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
-        <p>
-            Antonio Hoeft<br>
-            Adresse wie oben
-        </p>
-        
-        <h2>Bildnachweis</h2>
-        <p>Bildmaterial auf dieser Website wird bezogen von Freepik (www.freepik.com) und wird im Rahmen einer Premium-Lizenz genutzt.</p>
-        
-        <p><strong>Stand: 06.05.2026</strong></p>
-        
-        <a href="index.html" class="back-link">← Zurück zur Startseite</a>
+
+<nav id="nav" aria-label="Hauptnavigation">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-logo" aria-label="Metallbau Meyer – Startseite">Daniel Meyer<span>.</span></a>
+        <ul id="nav-items" role="menubar">
+            <li class="menu-item" role="none"><a href="index.html#services" role="menuitem">Leistungen</a></li>
+            <li class="menu-item" role="none"><a href="index.html#segments" role="menuitem">Lösungen</a></li>
+            <li class="menu-item" role="none"><a href="index.html#why" role="menuitem">Unternehmen</a></li>
+            <li class="menu-item" role="none"><a href="index.html#cta" role="menuitem">Kontakt</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="anfrage.html" class="btn btn-solid" id="nav-cta">Projekt anfragen</a>
+            <button id="ham" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
     </div>
+</nav>
+
+<div id="mobile-menu" role="dialog" aria-label="Mobile Navigation" aria-modal="true">
+    <div class="mob-inner">
+        <ul id="mobile-nav-items">
+            <li><a href="index.html#services">Leistungen</a></li>
+            <li><a href="index.html#segments">Lösungen</a></li>
+            <li><a href="index.html#why">Unternehmen</a></li>
+            <li><a href="index.html#cta">Kontakt</a></li>
+        </ul>
+    </div>
+    <div class="mob-cta-wrap">
+        <a href="anfrage.html" class="btn btn-solid">Jetzt Projekt anfragen →</a>
+    </div>
+    <div class="mob-footer">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+    </div>
+</div>
+
+<div class="legal-wrap">
+
+    <div class="legal-hero">
+        <div class="legal-hero-inner">
+            <div class="legal-eyebrow">Rechtliches</div>
+            <h1>Impressum</h1>
+        </div>
+    </div>
+
+    <div class="legal-body">
+
+        <nav class="legal-toc" aria-label="Inhaltsverzeichnis">
+            <div class="legal-toc-label">Inhalt</div>
+            <ul>
+                <li><a href="#angaben">§ 5 TMG</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
+                <li><a href="#verantwortlich">Verantwortlich</a></li>
+                <li><a href="#bildnachweis">Bildnachweis</a></li>
+            </ul>
+        </nav>
+
+        <div class="legal-content">
+
+            <section class="legal-section" id="angaben">
+                <h2>Angaben gemäß § 5 TMG</h2>
+                <p>
+                    Metallbau Meyer<br>
+                    Daniel Meyer<br>
+                    Eberswalde, Brandenburg
+                </p>
+            </section>
+
+            <section class="legal-section" id="kontakt">
+                <h2>Kontakt</h2>
+                <p>
+                    Telefon: <a href="tel:+49">+49 …</a><br>
+                    E-Mail: <a href="mailto:info@metallbau-meyer.de">info@metallbau-meyer.de</a>
+                </p>
+            </section>
+
+            <section class="legal-section" id="verantwortlich">
+                <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+                <p>
+                    Daniel Meyer<br>
+                    Adresse wie oben
+                </p>
+            </section>
+
+            <section class="legal-section" id="bildnachweis">
+                <h2>Bildnachweis</h2>
+                <p>Bildmaterial auf dieser Website wird bezogen von Freepik (www.freepik.com) und wird im Rahmen einer Premium-Lizenz genutzt.</p>
+                <p><strong>Stand: Mai 2026</strong></p>
+            </section>
+
+            <a href="index.html" class="legal-back">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Zurück zur Startseite
+            </a>
+
+        </div>
+    </div>
+</div>
+
+<footer id="footer" aria-label="Seitenfußbereich">
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div>
+                <a href="index.html" class="footer-logo" aria-label="Metallbau Meyer – Startseite">Meyer<span>.</span></a>
+                <p class="footer-tagline">Meisterbetrieb für Metallbau &amp; Stahlbau · Eberswalde seit 1988</p>
+            </div>
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <h5>Werkstatt</h5>
+                    <p>Eberswalde<br>Brandenburg</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Servicegebiet</h5>
+                    <p>Eberswalde &amp; gesamte Region<br>Barnim / Uckermark</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Zertifizierung</h5>
+                    <p>DIN EN 1090<br>EXC2 zertifiziert</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2026 Metallbau Meyer – Alle Rechte vorbehalten</p>
+            <div class="footer-links">
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutz</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+const ham        = document.getElementById('ham');
+const mobileMenu = document.getElementById('mobile-menu');
+ham.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.contains('open');
+    ham.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    ham.setAttribute('aria-expanded', String(!isOpen));
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+});
+</script>
 </body>
 </html>

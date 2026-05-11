@@ -192,8 +192,8 @@
 
     /* Dropdown Panel – bleibt sichtbar, solange Cursor im Panel */
     #dropdown {
-        position: absolute;
-        top: 100%; left: 0; right: 0;
+        position: fixed;
+        top: var(--nav-h); left: 0; right: 0;
         background: var(--white);
         border-top: 1px solid var(--line);
         border-bottom: 1px solid var(--line);
@@ -267,6 +267,7 @@
         #nav-items { display: none; }
         #ham { display: flex; }
         .nav-inner { padding: 0 24px; }
+        #nav-cta { display: none !important; }
     }
 
     /* ═══════════════════════════════════════
@@ -1363,10 +1364,14 @@ ham.addEventListener('click', toggleMobile);
 ───────────────────────────────────── */
 const nav    = document.getElementById('nav');
 const navCta = document.getElementById('nav-cta');
+function updateNavCta() {
+    navCta.style.display = (window.scrollY > 160 && window.innerWidth > 1020) ? 'inline-flex' : 'none';
+}
 window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 20);
-    navCta.style.display = window.scrollY > 160 ? 'inline-flex' : 'none';
+    updateNavCta();
 }, { passive: true });
+window.addEventListener('resize', updateNavCta, { passive: true });
 
 /* ─────────────────────────────────────
    MARQUEE
