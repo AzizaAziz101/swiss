@@ -582,18 +582,24 @@
     }
     .srv-cell:hover::after { width: 100%; }
     .srv-icon { width: 30px; height: 30px; color: var(--teal); margin-bottom: 12px; opacity: 0.85; }
-    .srv-cell h4 { font-size: 15px; font-weight: 700; margin-bottom: 7px; color: var(--ink); }
+    .srv-cell h3, .srv-cell h4 { font-size: 15px; font-weight: 700; margin-bottom: 7px; color: var(--ink); }
     .srv-cell p { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
 
     @media (max-width: 1020px) {
         .services-inner { padding: 52px 24px; }
         .services-layout { grid-template-columns: 1fr; gap: 36px; }
+        .srv-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 640px) {
-        .srv-grid { grid-template-columns: repeat(2, 1fr); }
         .services-lede .btn-solid { width: 100%; justify-content: center; }
     }
-    @media (max-width: 380px) { .srv-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) {
+        .services-inner { padding: 40px 20px; }
+        .srv-cell { padding: 18px 16px; }
+    }
+    @media (max-width: 380px) {
+        .srv-grid { grid-template-columns: 1fr; }
+    }
 
     /* ═══════════════════════════════════════
        SEGMENTS
