@@ -433,9 +433,9 @@
         border-top: 1px solid var(--line);
         flex-wrap: wrap;
     }
-    .trust-item { display: flex; flex-direction: column; gap: 3px; }
-    .trust-item strong { font-size: 16px; font-weight: 700; color: var(--ink); }
-    .trust-item span { font-size: 13px; color: var(--ink-soft); }
+    .trust-item { display: flex; flex-direction: column; gap: 4px; }
+    .trust-item strong { font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+    .trust-item span { font-size: 14px; color: var(--ink-soft); }
 
     /* Hero bottom marquee strip */
     .hero-strip {
@@ -807,10 +807,10 @@
         <a href="index.html" class="nav-logo" aria-label="Metallbau Meyer – Startseite">Daniel Meyer<span>.</span></a>
 
         <ul id="nav-items" role="menubar">
-            <li class="menu-item" data-key="Leistungen" role="none"><a href="#services" role="menuitem">Leistungen</a></li>
-            <li class="menu-item" data-key="Lösungen" role="none"><a href="#segments" role="menuitem">Lösungen</a></li>
-            <li class="menu-item" data-key="Unternehmen" role="none"><a href="#why" role="menuitem">Unternehmen</a></li>
-            <li class="menu-item" data-key="Kontakt" role="none"><a href="#cta" role="menuitem">Kontakt</a></li>
+            <li class="menu-item" data-key="Leistungen" role="none"><a href="leistungen.html" role="menuitem">Leistungen</a></li>
+            <li class="menu-item" data-key="Lösungen" role="none"><a href="loesungen.html" role="menuitem">Lösungen</a></li>
+            <li class="menu-item" data-key="Unternehmen" role="none"><a href="unternehmen.html" role="menuitem">Unternehmen</a></li>
+            <li class="menu-item" data-key="Kontakt" role="none"><a href="kontakt.html" role="menuitem">Kontakt</a></li>
         </ul>
 
         <div id="dropdown" role="region" aria-label="Untermenü">
@@ -1238,24 +1238,24 @@
 ───────────────────────────────────── */
 const MENU_CONTENT = {
     Leistungen: {
-        firstUl:  { title: 'Konstruktion',  items: ['Treppenbau', 'Geländersysteme', 'Überdachungen'] },
-        secondUl: { title: 'Industriebau',  items: ['Stahlbühnen', 'Hallenbau', 'Rammschutz'] },
-        thirdUl:  { title: 'Fertigung',     items: ['Laserschneiden', 'CNC-Biegen', 'Schweißarbeiten'] }
+        firstUl:  { title: 'Privat',        items: [['Geländer & Brüstungen','leistungen.html#gelaender-anker'], ['Stahltreppen','leistungen.html#treppen-anker'], ['Tor- & Zaunanlagen','leistungen.html#tore-anker'], ['Anbaubalkone','leistungen.html#privatbau'], ['Aluminiumfenster','leistungen.html#privatbau']] },
+        secondUl: { title: 'Gewerbe',       items: [['Stahlkonstruktionen','leistungen.html#gewerbebau'], ['Wartungsbühnen','leistungen.html#gewerbebau'], ['Rammschutz','leistungen.html#gewerbebau'], ['Hallentore','leistungen.html#gewerbebau']] },
+        thirdUl:  { title: 'Fertigung',     items: [['Laserschneiden','leistungen.html#fertigung-verfahren'], ['CNC-Biegen','leistungen.html#fertigung-verfahren'], ['Schweißarbeiten','leistungen.html#fertigung-verfahren']] }
     },
     Lösungen: {
-        firstUl:  { title: 'Segmente',      items: ['Privatbau', 'Gewerbebau', 'Öffentlicher Raum'] },
-        secondUl: { title: 'Materialien',   items: ['Edelstahl', 'Aluminium', 'Baustahl'] },
-        thirdUl:  { title: 'Spezial',       items: ['Brandschutz', 'Smart-Access-Systeme'] }
+        firstUl:  { title: 'Segmente',      items: [['Privatbau','loesungen.html#privat'], ['Gewerbebau','loesungen.html#gewerbe'], ['Industrie & Sonderbau','loesungen.html#industrie']] },
+        secondUl: { title: 'Materialien',   items: [['Edelstahl','loesungen.html#materialien'], ['Aluminium','loesungen.html#materialien'], ['Baustahl','loesungen.html#materialien'], ['Cor-Ten-Stahl','loesungen.html#materialien']] },
+        thirdUl:  { title: 'Spezial',       items: [['Brandschutz','loesungen.html#spezial'], ['Smart-Access-Systeme','loesungen.html#spezial'], ['PV-Carports','loesungen.html#spezial'], ['Reparatur & Notdienst','loesungen.html#spezial']] }
     },
     Unternehmen: {
-        firstUl:  { title: 'Profil',        items: ['Unsere Geschichte', 'Team', 'Zertifikate'] },
-        secondUl: { title: 'Karriere',      items: ['Offene Stellen', 'Ausbildung'] },
-        thirdUl:  { title: 'Media',         items: ['Downloads', 'Aktuelles'] }
+        firstUl:  { title: 'Profil',    items: [['Unsere Geschichte','unternehmen.html#geschichte'], ['Das Team','unternehmen.html#team'], ['Zertifikate','unternehmen.html#zertifikate']] },
+        secondUl: { title: 'Karriere',  items: [['Offene Stellen','#'], ['Ausbildung','#']] },
+        thirdUl:  { title: 'Aktuelles', items: [['Neuigkeiten','#'], ['Downloads','#']] }
     },
     Kontakt: {
-        firstUl:  { title: 'Zentrale',      items: ['Anfahrt', 'Bürozeiten'] },
-        secondUl: { title: 'Direkt',        items: ['Anfrageformular', 'E-Mail schreiben'] },
-        thirdUl:  { title: 'Service',       items: ['Reparatur & Notfall'] }
+        firstUl:  { title: 'Anschrift', items: [['Werkstatt & Büro','kontakt.html'], ['Anfahrt','kontakt.html#anfahrt']] },
+        secondUl: { title: 'Direkt',    items: [['Anfrageformular','anfrage.html'], ['Rückruf vereinbaren','kontakt.html']] },
+        thirdUl:  { title: 'Service',   items: [['Öffnungszeiten','kontakt.html'], ['Reparatur & Notfall','kontakt.html']] }
     }
 };
 
@@ -1284,7 +1284,7 @@ function openDropdown(key) {
         col.innerHTML = `
             <h4>${content[section].title}</h4>
             <ul>
-                ${content[section].items.map(i => `<li><a href="#">${i}</a></li>`).join('')}
+                ${content[section].items.map(i => `<li><a href="${Array.isArray(i) ? i[1] : '#'}">${Array.isArray(i) ? i[0] : i}</a></li>`).join('')}
             </ul>`;
         dropdownContent.appendChild(col);
     });
@@ -1326,7 +1326,7 @@ Object.entries(MENU_CONTENT).forEach(([key, content]) => {
             </svg>
         </button>
         <div class="mob-acc-body" hidden>
-            <ul>${allItems.map(item => `<li><a href="#">${item}</a></li>`).join('')}</ul>
+            <ul>${allItems.map(item => `<li><a href="${Array.isArray(item) ? item[1] : '#'}">${Array.isArray(item) ? item[0] : item}</a></li>`).join('')}</ul>
         </div>`;
     mobileNav.appendChild(li);
 });
